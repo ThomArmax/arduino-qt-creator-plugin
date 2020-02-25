@@ -30,7 +30,7 @@
          </widget>
         </item>
         <item>
-         <widget class="Utils::PathChooser" name="ToolchainLocationPathChooser" native="true">
+         <widget class="Utils::PathChooser" name="toolchainLocationPathChooser" native="true">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
             <horstretch>0</horstretch>
@@ -60,7 +60,7 @@
          </widget>
         </item>
         <item>
-         <widget class="Utils::PathChooser" name="SdkLocationPathChooser" native="true">
+         <widget class="Utils::PathChooser" name="sdkLocationPathChooser" native="true">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
             <horstretch>0</horstretch>

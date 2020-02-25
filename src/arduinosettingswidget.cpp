@@ -37,7 +37,7 @@ ArduinoSettingsWidget::ArduinoSettingsWidget(QWidget *parent) :
 
     ArduinoSettings::instance()->load();
 
-    ui->SdkLocationPathChooser->setFileName(ArduinoSettings::instance()->sdkLocation());
+    ui->sdkLocationPathChooser->setFileName(ArduinoSettings::instance()->sdkLocation());
     ui->checkBoxAutoCreateKit->setChecked(ArduinoSettings::instance()->isAutoCreateKitEnabled());
 }
 
@@ -49,7 +49,7 @@ ArduinoSettingsWidget::~ArduinoSettingsWidget()
 void ArduinoSettingsWidget::saveSettings()
 {
     ArduinoSettings::instance()->setAutoCreateKit(ui->checkBoxAutoCreateKit->isChecked());
-    ArduinoSettings::instance()->setSdkLocation(ui->SdkLocationPathChooser->fileName());
+    ArduinoSettings::instance()->setSdkLocation(ui->sdkLocationPathChooser->fileName());
     ArduinoSettings::instance()->save();
 }
 
