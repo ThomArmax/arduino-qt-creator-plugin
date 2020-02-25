@@ -5,6 +5,7 @@
     \"Vendor\" : \"Thomas Coin\",
     \"Copyright\" : \"(C) Thomas Coin\",
     \"License\" : \"MIT\",
+    \"Category\" : \"Device Support\",
     \"Description\" : \"Arduino plugin for QtCreator\",
     \"Url\" : \"https://github.com/ThomArmax/arduino-qt-creator-plugin\",
     $$dependencyList
