@@ -27,6 +27,7 @@
 #include "arduinosettingspage.h"
 #include "arduinotoolchain.h"
 #include "arduinotoolsmenu.h"
+#include "wizards/projects/arduino/arduinoprojectwizard.h"
 
 #include <coreplugin/icore.h>
 #include <coreplugin/icontext.h>
@@ -34,6 +35,7 @@
 #include <coreplugin/actionmanager/command.h>
 #include <coreplugin/actionmanager/actioncontainer.h>
 #include <coreplugin/coreconstants.h>
+#include <projectexplorer/customwizard/customwizard.h>
 
 #include <QAction>
 #include <QMessageBox>
@@ -70,6 +72,13 @@ bool ArduinoPlugin::initialize(const QStringList &arguments, QString *errorStrin
     // Register objects
     addAutoReleasedObject(new Internal::ArduinoSettingsPage);
     addAutoReleasedObject(new Internal::ArduinoToolsMenu);
+
+    // Register Arduino project wizard
+    Core::IWizardFactory::registerFactoryCreator([] {
+        return QList<Core::IWizardFactory *> {
+            new Internal::ArduinoProjectWizard
+        };
+    });
 
     return true;
 }

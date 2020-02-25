@@ -22,24 +22,46 @@
 ** SOFTWARE.
 **
 ****************************************************************************/
-#pragma once
+#include "arduinoprojectwizard.h"
+#include "../../../arduinoconstants.h"
+
+#include <utils/fileutils.h>
 
 namespace Arduino {
-namespace Constants {
+namespace Internal {
 
-const char ARDUINO_TOOLCHAIN_ID[] = "Arduino.GccToolChain";
+using namespace Core;
 
-// Arduino settings constants
-const char ARDUINO_SETTINGS_ID[] = "Arduino.Configuration";
+ArduinoProjectWizard::ArduinoProjectWizard()
+{
+    setSupportedProjectTypes({Constants::ARDUINO_PROJECT_WIZARD_CATEGORY});
+    setIcon(QIcon(QLatin1String(":/wizards/arduino_logo.png")));
+    setDisplayName(tr("Arduino Project"));
+    setId("Arduino.Project.Makefile");
+    setDescription(tr("Creates an Arduino project"));
+    setCategory(QLatin1String(Constants::ARDUINO_PROJECT_WIZARD_CATEGORY));
+    setDisplayCategory(QLatin1String(Constants::ARDIUNO_PROJECT_WIZARD_CATEGORY_DISPLAY));
+    setFlags(Core::IWizardFactory::PlatformIndependent);
+}
 
-// Arduino tools menu constants
-const char ARDUINO_TOOLS_MENU_ARDUINO_ID[]              = "Arduino.Tools.Menu";
-const char ARDUINO_TOOLS_MENU_DOWNLOAD_ACTION[]         = "Arduino.Tools.Menu.Download.Action";
-const char ARDUINO_TOOLS_MENU_SERIAL_MONITOR_ACTION[]   = "Arduino.Tools.Menu.SerialMonitor.Action";
+BaseFileWizard *ArduinoProjectWizard::create(QWidget *parent, const WizardDialogParameters &parameters) const
+{
 
-// Arduino projects constants
-const char ARDUINO_PROJECT_WIZARD_CATEGORY[]  = "Arduino.Projects.ArduinoProject";
-const char ARDIUNO_PROJECT_WIZARD_CATEGORY_DISPLAY[] = QT_TRANSLATE_NOOP("ProjectExplorer", "Arduino");
+    return nullptr;
+//    auto wizard = new SimpleProjectWizardDialog(this, parent);
+//    wizard->setPath(parameters.defaultPath());
 
-} // namespace Constants
+//    for (QWizardPage *p : wizard->extensionPages())
+//        wizard->addPage(p);
+
+//    return wizard;
+}
+
+GeneratedFiles ArduinoProjectWizard::generateFiles(const QWizard *w, QString *errorMessage) const
+{
+    GeneratedFile generatedProFile("dummy");
+    return GeneratedFiles{generatedProFile};
+}
+
+} // namespace Internal
 } // namespace Arduino

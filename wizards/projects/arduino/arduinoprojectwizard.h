@@ -22,24 +22,25 @@
 ** SOFTWARE.
 **
 ****************************************************************************/
-#pragma once
+#ifndef ARDUINOPROJECTWIZARD_H
+#define ARDUINOPROJECTWIZARD_H
+
+#include <coreplugin/basefilewizardfactory.h>
 
 namespace Arduino {
-namespace Constants {
+namespace Internal {
 
-const char ARDUINO_TOOLCHAIN_ID[] = "Arduino.GccToolChain";
+class ArduinoProjectWizard : public Core::BaseFileWizardFactory
+{
+public:
+    ArduinoProjectWizard();
 
-// Arduino settings constants
-const char ARDUINO_SETTINGS_ID[] = "Arduino.Configuration";
+private:
+    Core::BaseFileWizard *create(QWidget *parent, const Core::WizardDialogParameters &parameters) const override;
+    Core::GeneratedFiles generateFiles(const QWizard *w, QString *errorMessage) const override;
+};
 
-// Arduino tools menu constants
-const char ARDUINO_TOOLS_MENU_ARDUINO_ID[]              = "Arduino.Tools.Menu";
-const char ARDUINO_TOOLS_MENU_DOWNLOAD_ACTION[]         = "Arduino.Tools.Menu.Download.Action";
-const char ARDUINO_TOOLS_MENU_SERIAL_MONITOR_ACTION[]   = "Arduino.Tools.Menu.SerialMonitor.Action";
-
-// Arduino projects constants
-const char ARDUINO_PROJECT_WIZARD_CATEGORY[]  = "Arduino.Projects.ArduinoProject";
-const char ARDIUNO_PROJECT_WIZARD_CATEGORY_DISPLAY[] = QT_TRANSLATE_NOOP("ProjectExplorer", "Arduino");
-
-} // namespace Constants
+} // namespace Internal
 } // namespace Arduino
+
+#endif // ARDUINOPROJECTWIZARD_H

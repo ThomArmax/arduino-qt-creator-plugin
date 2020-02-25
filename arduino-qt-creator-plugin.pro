@@ -8,7 +8,8 @@ SOURCES += \
     arduinosettingswidget.cpp \
     arduinotoolchain.cpp \
     arduinotoolsmenu.cpp \
-    arduinosettings.cpp
+    arduinosettings.cpp \
+    wizards/projects/arduino/arduinoprojectwizard.cpp
 
 HEADERS += \
     arduino_global.h \
@@ -18,7 +19,8 @@ HEADERS += \
     arduinosettingswidget.h \
     arduinotoolchain.h \
     arduinotoolsmenu.h \
-    arduinosettings.h
+    arduinosettings.h \
+    wizards/projects/arduino/arduinoprojectwizard.h
 
 # Qt Creator linking
 
@@ -66,3 +68,6 @@ FORMS += \
 DISTFILES += \
     README.md \
     Arduino.json.in
+
+RESOURCES += \
+    res.qrc
