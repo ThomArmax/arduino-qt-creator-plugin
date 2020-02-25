@@ -43,15 +43,6 @@
 namespace Arduino {
 namespace Internal {
 
-class ArduinoPluginPrivate
-{
-public:
-    ArduinoSettingsPage settingsPage;
-    ArduinoToolChainFactory toolchainFactory;
-    ArduinoToolsMenu toolsMenu;
-};
-
-static ArduinoPluginPrivate *dd = nullptr;
 
 ArduinoPlugin::ArduinoPlugin()
 {
@@ -76,10 +67,9 @@ bool ArduinoPlugin::initialize(const QStringList &arguments, QString *errorStrin
     Q_UNUSED(arguments)
     Q_UNUSED(errorString)
 
-    dd = new ArduinoPluginPrivate;
-
-    // Handles Arduino toolchain
-    //addAutoReleasedObject(new ArduinoSettingsPage);
+    // Register objects
+    addAutoReleasedObject(new Internal::ArduinoSettingsPage);
+    addAutoReleasedObject(new Internal::ArduinoToolsMenu);
 
     return true;
 }
