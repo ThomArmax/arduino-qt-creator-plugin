@@ -1,0 +1,11 @@
+{
+    \"Name\" : \"Espressif\",
+    \"Version\" : \"0.0.1\",
+    \"CompatVersion\" : \"0.0.1\",
+    \"Vendor\" : \"Thomas Coin\",
+    \"Copyright\" : \"(C) Thomas Coin\",
+    \"License\" : \"MIT\",
+    \"Description\" : \"Arduino plugin for QtCreator\",
+    \"Url\" : \"https://github.com/ThomArmax/arduino-qt-creator-plugin\",
+    $$dependencyList
+}
