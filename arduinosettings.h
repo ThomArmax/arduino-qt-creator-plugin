@@ -22,36 +22,41 @@
 ** SOFTWARE.
 **
 ****************************************************************************/
-#include "arduinosettingswidget.h"
-#include "arduinosettings.h"
-#include "ui_arduinosettingswidget.h"
+#ifndef ARDUINOSETTINGS_H
+#define ARDUINOSETTINGS_H
+
+#include <QSettings>
+#include <utils/fileutils.h>
 
 namespace Arduino {
 namespace Internal {
 
-ArduinoSettingsWidget::ArduinoSettingsWidget(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::ArduinoSettingsWidget)
+class ArduinoSettings
 {
-    ui->setupUi(this);
+public:
+    static ArduinoSettings *instance();
 
-    ArduinoSettings::instance()->load();
+    void load();
+    void save() const;
 
-    ui->SdkLocationPathChooser->setFileName(ArduinoSettings::instance()->sdkLocation());
-    ui->checkBoxAutoCreateKit->setChecked(ArduinoSettings::instance()->isAutoCreateKitEnabled());
-}
+    Utils::FileName sdkLocation() const;
+    void setSdkLocation(const Utils::FileName &sdk);
 
-ArduinoSettingsWidget::~ArduinoSettingsWidget()
-{
-    delete ui;
-}
+    bool isAutoCreateKitEnabled() const;
+    void setAutoCreateKit(bool enabled);
 
-void ArduinoSettingsWidget::saveSettings()
-{
-    ArduinoSettings::instance()->setAutoCreateKit(ui->checkBoxAutoCreateKit->isChecked());
-    ArduinoSettings::instance()->setSdkLocation(ui->SdkLocationPathChooser->fileName());
-    ArduinoSettings::instance()->save();
-}
+private:
+    ArduinoSettings();
+
+private:
+    Utils::FileName m_sdkLocation;
+    bool m_createKit;
+
+    static ArduinoSettings *m_instance;
+
+};
 
 } // namespace Internal
-} // namespace ArduinoToolchain
+} // namespace Arduino
+
+#endif // ARDUINOSETTINGS_H

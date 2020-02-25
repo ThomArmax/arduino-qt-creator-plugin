@@ -7,7 +7,8 @@ SOURCES += \
     arduinosettingspage.cpp \
     arduinosettingswidget.cpp \
     arduinotoolchain.cpp \
-    arduinotoolsmenu.cpp
+    arduinotoolsmenu.cpp \
+    arduinosettings.cpp
 
 HEADERS += \
     arduino_global.h \
@@ -16,7 +17,8 @@ HEADERS += \
     arduinosettingspage.h \
     arduinosettingswidget.h \
     arduinotoolchain.h \
-    arduinotoolsmenu.h
+    arduinotoolsmenu.h \
+    arduinosettings.h
 
 # Qt Creator linking
 

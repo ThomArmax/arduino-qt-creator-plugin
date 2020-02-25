@@ -42,6 +42,8 @@ public:
     explicit ArduinoSettingsWidget(QWidget *parent = 0);
     ~ArduinoSettingsWidget();
 
+    void saveSettings();
+
 private:
     Ui::ArduinoSettingsWidget *ui;
 };

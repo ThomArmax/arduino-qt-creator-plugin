@@ -41,8 +41,7 @@ ArduinoSettingsPage::ArduinoSettingsPage(QObject* parent) :
     setId(Core::Id(Constants::ARDUINO_SETTINGS_ID));
     setDisplayName(tr("Arduino"));
     setCategory(ProjectExplorer::Constants::DEVICE_SETTINGS_CATEGORY);
-    setDisplayCategory(QCoreApplication::translate("ProjectExplorer",
-                                       ProjectExplorer::Constants::DEVICE_SETTINGS_TR_CATEGORY));
+    setDisplayCategory(QCoreApplication::translate("ProjectExplorer", ProjectExplorer::Constants::DEVICE_SETTINGS_TR_CATEGORY));
 }
 
 QWidget* ArduinoSettingsPage::widget()
@@ -55,7 +54,8 @@ QWidget* ArduinoSettingsPage::widget()
 
 void ArduinoSettingsPage::apply()
 {
-    //m_widget->applyChanges();
+    if (m_widget)
+        m_widget->saveSettings();
 }
 
 void ArduinoSettingsPage::finish()
