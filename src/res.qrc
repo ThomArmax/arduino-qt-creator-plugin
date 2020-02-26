@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/wizards">
         <file alias="arduino_logo.png">wizards/projects/arduino/arduino_logo.png</file>
+        <file alias="avr.png">wizards/projects/avr/avr.png</file>
     </qresource>
 </RCC>

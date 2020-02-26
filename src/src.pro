@@ -9,7 +9,8 @@ SOURCES += \
     arduinotoolchain.cpp \
     arduinotoolsmenu.cpp \
     arduinosettings.cpp \
-    wizards/projects/arduino/arduinoprojectwizard.cpp
+    wizards/projects/arduino/arduinoprojectwizard.cpp \
+    wizards/projects/avr/avrprojectwizard.cpp
 
 HEADERS += \
     arduino_global.h \
@@ -20,7 +21,8 @@ HEADERS += \
     arduinotoolchain.h \
     arduinotoolsmenu.h \
     arduinosettings.h \
-    wizards/projects/arduino/arduinoprojectwizard.h
+    wizards/projects/arduino/arduinoprojectwizard.h \
+    wizards/projects/avr/avrprojectwizard.h
 
 # Qt Creator linking
 

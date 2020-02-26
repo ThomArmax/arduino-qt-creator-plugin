@@ -28,6 +28,7 @@
 #include "arduinotoolchain.h"
 #include "arduinotoolsmenu.h"
 #include "wizards/projects/arduino/arduinoprojectwizard.h"
+#include "wizards/projects/avr/avrprojectwizard.h"
 
 #include <coreplugin/icore.h>
 #include <coreplugin/icontext.h>
@@ -76,7 +77,8 @@ bool ArduinoPlugin::initialize(const QStringList &arguments, QString *errorStrin
     // Register Arduino project wizard
     Core::IWizardFactory::registerFactoryCreator([] {
         return QList<Core::IWizardFactory *> {
-            new Internal::ArduinoProjectWizard
+            new Internal::ArduinoProjectWizard,
+            new Internal::AvrProjectWizard
         };
     });
 
