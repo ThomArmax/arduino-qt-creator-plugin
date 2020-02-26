@@ -22,36 +22,22 @@
 ** SOFTWARE.
 **
 ****************************************************************************/
-#ifndef ARDUINOFILESSELECTIONWIZARDPAGE_H
-#define ARDUINOFILESSELECTIONWIZARDPAGE_H
+#ifndef ARDUINOHARDWARECONFIGURATIONPAGE_H
+#define ARDUINOHARDWARECONFIGURATIONPAGE_H
 
-#include <QWizardPage>
-#include <utils/fileutils.h>
-
-namespace ProjectExplorer { class SelectableFilesWidget; }
+#include <utils/wizardpage.h>
 
 namespace Arduino {
 namespace Internal {
 
-class ArduinoProjectWizardDialog;
-
-class ArduinoFilesSelectionWizardPage : public QWizardPage
+class ArduinoHardwareConfigurationPage : public Utils::WizardPage
 {
 public:
-    explicit ArduinoFilesSelectionWizardPage(ArduinoProjectWizardDialog *arduinoProjectWizard, QWidget *parent = nullptr);
-
-    bool isComplete() const override;
-    void initializePage() override;
-    void cleanupPage() override;
-    Utils::FileNameList selectedFiles() const;
-    Utils::FileNameList selectedPaths() const;
-
-private:
-    ArduinoProjectWizardDialog *m_genericProjectWizardDialog;
-    ProjectExplorer::SelectableFilesWidget *m_filesWidget;
+    ArduinoHardwareConfigurationPage();
 };
 
 } // namespace Internal
 } // namespace Arduino
 
-#endif // ARDUINOFILESSELECTIONWIZARDPAGE_H
+
+#endif // ARDUINOHARDWARECONFIGURATIONPAGE_H

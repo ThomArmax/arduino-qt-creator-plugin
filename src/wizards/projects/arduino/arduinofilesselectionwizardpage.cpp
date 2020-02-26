@@ -30,9 +30,9 @@
 namespace Arduino {
 namespace Internal {
 
-ArduinoFilesSelectionWizardPage::ArduinoFilesSelectionWizardPage(ArduinoProjectWizardDialog *genericProjectWizard, QWidget *parent)
+ArduinoFilesSelectionWizardPage::ArduinoFilesSelectionWizardPage(ArduinoProjectWizardDialog *arduinoProjectWizard, QWidget *parent)
     : QWizardPage(parent)
-    , m_genericProjectWizardDialog(genericProjectWizard)
+    , m_arduinoProjectWizardDialog(arduinoProjectWizard)
     , m_filesWidget(new ProjectExplorer::SelectableFilesWidget(this))
 {
 
@@ -40,7 +40,7 @@ ArduinoFilesSelectionWizardPage::ArduinoFilesSelectionWizardPage(ArduinoProjectW
 
 void ArduinoFilesSelectionWizardPage::initializePage()
 {
-    m_filesWidget->resetModel(Utils::FileName::fromString(m_genericProjectWizardDialog->path()),
+    m_filesWidget->resetModel(Utils::FileName::fromString(m_arduinoProjectWizardDialog->path()),
                               Utils::FileNameList());
 }
 
