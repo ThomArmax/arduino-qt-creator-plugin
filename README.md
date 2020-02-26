@@ -13,3 +13,8 @@ Work In Progress!
 - Serial monitor
 - Program download
 - ...
+
+
+## Arduino SDK setup
+
+![Arduino SDK config][res/arduino-device-config.png]
