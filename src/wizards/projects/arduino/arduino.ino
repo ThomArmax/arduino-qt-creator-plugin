@@ -4,6 +4,14 @@
  * @details Project's description ...
  */
 
+//-- Includes
+#include <Arduino.h>
+
+//-- Definitions
+#define MY_CONSTANT 12
+
+//-- Functions
+
 /**
  * @brief the setup function runs once when you press reset or power the board
  */
