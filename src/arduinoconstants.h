@@ -27,7 +27,7 @@
 namespace Arduino {
 namespace Constants {
 
-const char ARDUINO_TOOLCHAIN_ID[] = "Arduino.GccToolChain";
+const char ARDUINO_TOOLCHAIN_ID[] = "Avr.GccToolChain";
 
 // Arduino settings constants
 const char ARDUINO_SETTINGS_ID[] = "Arduino.Configuration";

@@ -73,6 +73,7 @@ bool ArduinoPlugin::initialize(const QStringList &arguments, QString *errorStrin
     // Register objects
     addAutoReleasedObject(new Internal::ArduinoSettingsPage);
     addAutoReleasedObject(new Internal::ArduinoToolsMenu);
+    addAutoReleasedObject(new Internal::ArduinoToolChainFactory);
 
     // Register Arduino project wizard
     Core::IWizardFactory::registerFactoryCreator([] {

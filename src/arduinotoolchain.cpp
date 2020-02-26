@@ -57,7 +57,7 @@ ArduinoToolChain::ArduinoToolChain(Core::Id l, ToolChain::Detection d)
 
 QString ArduinoToolChain::typeDisplayName() const
 {
-    return ArduinoToolChainFactory::tr("Arduino");
+    return ArduinoToolChainFactory::tr("AVR/Arduino");
 }
 
 ToolChainConfigWidget *ArduinoToolChain::configurationWidget()
@@ -71,12 +71,16 @@ ToolChainConfigWidget *ArduinoToolChain::configurationWidget()
 
 ArduinoToolChainFactory::ArduinoToolChainFactory()
 {
-    setDisplayName(tr("Arduino"));
+    setDisplayName(tr("AVR/Arduino"));
 }
 
 QSet<Core::Id> ArduinoToolChainFactory::supportedLanguages() const
 {
-    return {ProjectExplorer::Constants::C_LANGUAGE_ID};
+    return
+    {
+        ProjectExplorer::Constants::C_LANGUAGE_ID,
+        ProjectExplorer::Constants::CXX_LANGUAGE_ID
+    };
 }
 
 bool ArduinoToolChainFactory::canCreate()
@@ -98,7 +102,6 @@ ArduinoToolChainConfigWidget::ArduinoToolChainConfigWidget(ArduinoToolChain *tc)
     , m_compilerCommand(new PathChooser)
 {
     m_compilerCommand->setExpectedKind(PathChooser::File);
-    m_compilerCommand->setFileName(FileName::fromString("xtensa-lx106-elf-gcc"));
     m_mainLayout->addRow(tr("Compiler path:"), m_compilerCommand);
 
     connect(m_compilerCommand, &PathChooser::rawPathChanged,
