@@ -10,7 +10,9 @@ SOURCES += \
     arduinotoolsmenu.cpp \
     arduinosettings.cpp \
     wizards/projects/arduino/arduinoprojectwizard.cpp \
-    wizards/projects/avr/avrprojectwizard.cpp
+    wizards/projects/avr/avrprojectwizard.cpp \
+    wizards/projects/arduino/arduinoprojectwizarddialog.cpp \
+    wizards/projects/arduino/arduinofilesselectionwizardpage.cpp
 
 HEADERS += \
     arduino_global.h \
@@ -22,7 +24,9 @@ HEADERS += \
     arduinotoolsmenu.h \
     arduinosettings.h \
     wizards/projects/arduino/arduinoprojectwizard.h \
-    wizards/projects/avr/avrprojectwizard.h
+    wizards/projects/avr/avrprojectwizard.h \
+    wizards/projects/arduino/arduinoprojectwizarddialog.h \
+    wizards/projects/arduino/arduinofilesselectionwizardpage.h
 
 # Qt Creator linking
 
@@ -69,7 +73,8 @@ FORMS += \
 
 DISTFILES += \
     README.md \
-    Arduino.json.in
+    Arduino.json.in \
+    wizards/projects/arduino/arduino.ino
 
 RESOURCES += \
     res.qrc

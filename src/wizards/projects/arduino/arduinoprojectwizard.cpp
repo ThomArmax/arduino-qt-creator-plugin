@@ -23,6 +23,7 @@
 **
 ****************************************************************************/
 #include "arduinoprojectwizard.h"
+#include "arduinoprojectwizarddialog.h"
 #include "../../../arduinoconstants.h"
 
 #include <utils/fileutils.h>
@@ -46,21 +47,42 @@ ArduinoProjectWizard::ArduinoProjectWizard()
 
 BaseFileWizard *ArduinoProjectWizard::create(QWidget *parent, const WizardDialogParameters &parameters) const
 {
+    ArduinoProjectWizardDialog* wizard = new ArduinoProjectWizardDialog(this, parent);
+    wizard->setPath(parameters.defaultPath());
 
-    return nullptr;
-//    auto wizard = new SimpleProjectWizardDialog(this, parent);
-//    wizard->setPath(parameters.defaultPath());
+    for (QWizardPage *p : wizard->extensionPages())
+        wizard->addPage(p);
 
-//    for (QWizardPage *p : wizard->extensionPages())
-//        wizard->addPage(p);
-
-//    return wizard;
+    return wizard;
 }
 
 GeneratedFiles ArduinoProjectWizard::generateFiles(const QWizard *w, QString *errorMessage) const
 {
-    GeneratedFile generatedProFile("dummy");
-    return GeneratedFiles{generatedProFile};
+    const ArduinoProjectWizardDialog *dialog = qobject_cast<const ArduinoProjectWizardDialog*>(w);
+    //const QtProjectParameters projectParams = dialog->projectParameters();
+    const QString projectName = dialog->projectName();
+    const QString projectPath = dialog->path() + "/" + projectName;
+    const QString mainSourceFileName = buildFileName(projectPath, projectName, ".ino");
+
+    Core::GeneratedFile mainSource(mainSourceFileName);
+    setInoFileContent(mainSource, projectName + ".ino");
+
+    Core::GeneratedFiles rc;
+    rc << mainSource;
+
+    return rc;
+}
+
+void ArduinoProjectWizard::setInoFileContent(Core::GeneratedFile &file, const QString &fileName)
+{
+    QFile inoFile(QLatin1String(":/wizards/arduino.ino"));
+    inoFile.open(QIODevice::ReadOnly);
+
+    QByteArray fileData = inoFile.readAll();
+    QString content = QString::fromLatin1(fileData.data(), fileData.size());
+    content.replace("%FILENAME%", fileName);
+
+    file.setContents(content);
 }
 
 } // namespace Internal

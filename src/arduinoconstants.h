@@ -41,5 +41,8 @@ const char ARDUINO_TOOLS_MENU_SERIAL_MONITOR_ACTION[]   = "Arduino.Tools.Menu.Se
 const char ARDUINO_PROJECT_WIZARD_CATEGORY[]  = "Arduino.Projects.ArduinoProject";
 const char ARDIUNO_PROJECT_WIZARD_CATEGORY_DISPLAY[] = QT_TRANSLATE_NOOP("ProjectExplorer", "Arduino");
 
+// Mime types
+const char INO_SOURCE_MIMETYPE[] = "text/x-ino-src";
+
 } // namespace Constants
 } // namespace Arduino

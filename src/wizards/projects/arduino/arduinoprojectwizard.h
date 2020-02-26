@@ -32,12 +32,16 @@ namespace Internal {
 
 class ArduinoProjectWizard : public Core::BaseFileWizardFactory
 {
+    Q_OBJECT
+
 public:
     ArduinoProjectWizard();
 
 private:
     Core::BaseFileWizard *create(QWidget *parent, const Core::WizardDialogParameters &parameters) const override;
     Core::GeneratedFiles generateFiles(const QWizard *w, QString *errorMessage) const override;
+
+    static void setInoFileContent(Core::GeneratedFile &file, const QString &fileName);
 };
 
 } // namespace Internal
