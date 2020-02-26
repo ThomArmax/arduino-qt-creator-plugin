@@ -8,6 +8,8 @@ Work In Progress!
 
 - Provide Arduino device support (SDK configuration, ...)
 - Arduino project template
+- C++ project template
+- AVR C project template
 - Serial monitor
 - Program download
 - ...
