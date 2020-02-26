@@ -45,6 +45,14 @@ public:
     bool isAutoCreateKitEnabled() const;
     void setAutoCreateKit(bool enabled);
 
+    Utils::FileName boardsFile() const;
+    Utils::FileName sdkIncludePath() const;
+    Utils::FileName avrBinPath() const;
+    Utils::FileName avrIncludePath() const;
+
+    static bool validate(const QString &path, QString &errorStr);
+    bool validate(QString &errorStr) const;
+
 private:
     ArduinoSettings();
 

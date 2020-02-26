@@ -31,8 +31,14 @@ namespace Ui {
 class ArduinoSettingsWidget;
 }
 
+namespace Utils {
+class FancyLineEdit;
+}
+
 namespace Arduino {
 namespace Internal {
+
+class ArduinoSettings;
 
 class ArduinoSettingsWidget : public QWidget
 {
@@ -45,7 +51,16 @@ public:
     void saveSettings();
 
 private:
+    bool validateSettings(bool showPopup);
+    static bool validateSdkPath(Utils::FancyLineEdit *edit, QString *errorMessage);
+
+private slots:
+    void updateUi();
+    void onSdkPathChanged(const QString &path);
+
+private:
     Ui::ArduinoSettingsWidget *ui;
+    ArduinoSettings * m_settings;
 };
 
 }

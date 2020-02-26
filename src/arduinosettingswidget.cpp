@@ -26,19 +26,26 @@
 #include "arduinosettings.h"
 #include "ui_arduinosettingswidget.h"
 
+#include <utils/fancylineedit.h>
+
+#include <QDebug>
+#include <QMessageBox>
+
 namespace Arduino {
 namespace Internal {
 
-ArduinoSettingsWidget::ArduinoSettingsWidget(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::ArduinoSettingsWidget)
+ArduinoSettingsWidget::ArduinoSettingsWidget(QWidget *parent)
+    : QWidget(parent)
+    , ui(new Ui::ArduinoSettingsWidget)
+    , m_settings(ArduinoSettings::instance())
 {
     ui->setupUi(this);
+    ui->sdkLocationPathChooser->setValidationFunction(&ArduinoSettingsWidget::validateSdkPath);
 
-    ArduinoSettings::instance()->load();
+    m_settings->load();
+    updateUi();
 
-    ui->sdkLocationPathChooser->setFileName(ArduinoSettings::instance()->sdkLocation());
-    ui->checkBoxAutoCreateKit->setChecked(ArduinoSettings::instance()->isAutoCreateKitEnabled());
+    connect(ui->sdkLocationPathChooser, &Utils::PathChooser::pathChanged, this, &ArduinoSettingsWidget::onSdkPathChanged);
 }
 
 ArduinoSettingsWidget::~ArduinoSettingsWidget()
@@ -50,7 +57,58 @@ void ArduinoSettingsWidget::saveSettings()
 {
     ArduinoSettings::instance()->setAutoCreateKit(ui->checkBoxAutoCreateKit->isChecked());
     ArduinoSettings::instance()->setSdkLocation(ui->sdkLocationPathChooser->fileName());
-    ArduinoSettings::instance()->save();
+
+    validateSettings(true);
+
+    m_settings->save();
+    updateUi();
+}
+
+bool ArduinoSettingsWidget::validateSettings(bool showPopup)
+{
+    QString errorStr;
+    bool valid = m_settings->validate(errorStr);
+    if (!valid && showPopup)
+    {
+        QMessageBox::warning(this, "Error", QString("Given path could not be validated.\r\n"
+                                            "Reason : %1").arg(errorStr));
+    }
+
+    return valid;
+}
+
+bool ArduinoSettingsWidget::validateSdkPath(Utils::FancyLineEdit *edit, QString *errorMessage)
+{
+    return ArduinoSettings::instance()->validate(edit->text(), *errorMessage);
+}
+
+// -- Slots
+
+void ArduinoSettingsWidget::updateUi()
+{
+    ui->sdkLocationPathChooser->setFileName(m_settings->sdkLocation());
+    ui->checkBoxAutoCreateKit->setChecked(m_settings->isAutoCreateKitEnabled());
+
+    QString errorStr;
+    if (m_settings->validate(errorStr))
+    {
+        ui->labelArduinoBoardsFile->setText(m_settings->boardsFile().toString());
+        ui->labelArduinoHeaders->setText(m_settings->sdkIncludePath().toString());
+        ui->labelAvrHeaders->setText(m_settings->avrIncludePath().toString());
+        ui->labelAvrBins->setText(m_settings->avrBinPath().toString());
+    }
+    else
+    {
+        ui->labelArduinoBoardsFile->setText("N/A");
+        ui->labelArduinoHeaders->setText("N/A");
+        ui->labelAvrHeaders->setText("N/A");
+        ui->labelAvrBins->setText("N/A");
+    }
+}
+
+void ArduinoSettingsWidget::onSdkPathChanged(const QString &path)
+{
+    qDebug() << Q_FUNC_INFO << path;
 }
 
 } // namespace Internal

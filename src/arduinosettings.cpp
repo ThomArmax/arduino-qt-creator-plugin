@@ -24,6 +24,8 @@
 ****************************************************************************/
 #include "arduinosettings.h"
 
+#include <QFileInfo>
+
 #include <utils/fileutils.h>
 #include <coreplugin/icore.h>
 
@@ -33,9 +35,16 @@ namespace Arduino {
 namespace Internal {
 
 namespace {
+    // Settings
     const QLatin1String SettingsGroup("ArduinoConfiguration");
-    const QLatin1String SdkLocationKey("SdkLocation");
-    const QLatin1String CreateKitKey("CreateKit");
+    const QLatin1String SdkLocationKey("Arduino.SdkLocation");
+    const QLatin1String CreateKitKey("Arduino.CreateKit");
+
+    // Paths
+    const QLatin1String BoardsFileSuffix("/hardware/arduino/avr/boards.txt");
+    const QLatin1String ArduinoSdkHeadersPathSuffix("/hardware/arduino/avr/cores/arduino/");
+    const QLatin1String AvrBinPathSuffix("/hardware/tools/avr/bin/");
+    const QLatin1String AvrIncludePathSuffix("/hardware/tools/avr/avr/include/");
 }
 
 ArduinoSettings *ArduinoSettings::m_instance = nullptr;
@@ -63,8 +72,8 @@ void ArduinoSettings::save() const
     QSettings *settings = Core::ICore::settings();
     settings->beginGroup(SettingsGroup);
 
-    settings->setValue(SdkLocationKey, m_instance->m_sdkLocation.toString());
-    settings->setValue(CreateKitKey, m_instance->m_createKit);
+    settings->setValue(SdkLocationKey, m_sdkLocation.toString());
+    settings->setValue(CreateKitKey, m_createKit);
 
     settings->endGroup();
 }
@@ -87,6 +96,75 @@ bool ArduinoSettings::isAutoCreateKitEnabled() const
 void ArduinoSettings::setAutoCreateKit(bool enabled)
 {
     m_createKit = enabled;
+}
+
+Utils::FileName ArduinoSettings::boardsFile() const
+{
+    QFileInfo fileInfo(m_sdkLocation.toString() + BoardsFileSuffix);
+    return Utils::FileName(fileInfo);
+}
+
+Utils::FileName ArduinoSettings::sdkIncludePath() const
+{
+    QFileInfo fileInfo(m_sdkLocation.toString() + ArduinoSdkHeadersPathSuffix);
+    return Utils::FileName(fileInfo);
+}
+
+Utils::FileName ArduinoSettings::avrBinPath() const
+{
+    QFileInfo fileInfo(m_sdkLocation.toString() + AvrBinPathSuffix);
+    return Utils::FileName(fileInfo);
+}
+
+Utils::FileName ArduinoSettings::avrIncludePath() const
+{
+    QFileInfo fileInfo(m_sdkLocation.toString() + AvrIncludePathSuffix);
+    return Utils::FileName(fileInfo);
+}
+
+bool ArduinoSettings::validate(const QString &path, QString &errorStr)
+{
+    QFileInfo infos(path);
+    if (!infos.isDir())
+    {
+        errorStr = QObject::tr("Given path is not a directory");
+        return false;
+    }
+
+    infos.setFile(path + BoardsFileSuffix);
+    if (!infos.exists())
+    {
+        errorStr = QObject::tr("Could not find") + " " + infos.absoluteFilePath();
+        return false;
+    }
+
+    infos.setFile(path + ArduinoSdkHeadersPathSuffix + "/Arduino.h");
+    if (!infos.exists())
+    {
+        errorStr = QObject::tr("Could not find") + " " + infos.absoluteFilePath();
+        return false;
+    }
+
+    infos.setFile(path + AvrBinPathSuffix);
+    if (!infos.exists())
+    {
+        errorStr = QObject::tr("Could not find") + " " + infos.absoluteFilePath();
+        return false;
+    }
+
+    infos.setFile(path + AvrIncludePathSuffix);
+    if (!infos.exists())
+    {
+        errorStr = QObject::tr("Could not find") + " " + infos.absoluteFilePath();
+        return false;
+    }
+
+    return true;
+}
+
+bool ArduinoSettings::validate(QString &errorStr) const
+{
+    return validate(m_sdkLocation.toString(), errorStr);
 }
 
 ArduinoSettings *ArduinoSettings::instance()
