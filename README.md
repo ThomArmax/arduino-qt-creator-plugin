@@ -17,4 +17,4 @@ Work In Progress!
 
 ## Arduino SDK setup
 
-![Arduino SDK config][res/arduino-device-config.png]
+![Arduino SDK config](res/arduino-device-config.png)
