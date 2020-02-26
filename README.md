@@ -19,6 +19,8 @@ Work In Progress!
 - AVR C project template
 - Serial monitor
 - Program download
+- AVR compiler toolchain support
+- AVR / Arduino Kit
 - ...
 
 
