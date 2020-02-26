@@ -31,6 +31,9 @@
 namespace Arduino {
 namespace Internal {
 
+/**
+ * @brief Arduino SDK settings
+ */
 class ArduinoSettings
 {
 public:
@@ -57,10 +60,10 @@ private:
     ArduinoSettings();
 
 private:
-    Utils::FileName m_sdkLocation;
-    bool m_createKit;
+    Utils::FileName m_sdkLocation; ///< Arduino SDK location
+    bool m_createKit; ///< Auto create kit flag
 
-    static ArduinoSettings *m_instance;
+    static ArduinoSettings *m_instance; ///< Settings instance
 
 };
 

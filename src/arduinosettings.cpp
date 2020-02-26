@@ -47,8 +47,12 @@ namespace {
     const QLatin1String AvrIncludePathSuffix("/hardware/tools/avr/avr/include/");
 }
 
+/// Settings instance
 ArduinoSettings *ArduinoSettings::m_instance = nullptr;
 
+/**
+ * @brief Default constructor
+ */
 ArduinoSettings::ArduinoSettings()
     : m_sdkLocation()
     , m_createKit(false)
@@ -56,6 +60,9 @@ ArduinoSettings::ArduinoSettings()
     m_instance = this;
 }
 
+/**
+ * @brief Loads the settings
+ */
 void ArduinoSettings::load()
 {
     QSettings *settings = Core::ICore::settings();
@@ -67,6 +74,9 @@ void ArduinoSettings::load()
     settings->endGroup();
 }
 
+/**
+ * @brief Saves the settings
+ */
 void ArduinoSettings::save() const
 {
     QSettings *settings = Core::ICore::settings();
@@ -78,50 +88,88 @@ void ArduinoSettings::save() const
     settings->endGroup();
 }
 
+/**
+ * @brief Returns the root path of Arduino SDK
+ * @return the root path of Arduino SDK
+ */
 Utils::FileName ArduinoSettings::sdkLocation() const
 {
     return m_sdkLocation;
 }
 
+/**
+ * @brief Sets the Arduino SDK root path
+ * @param sdk
+ */
 void ArduinoSettings::setSdkLocation(const Utils::FileName &sdk)
 {
     m_sdkLocation = sdk;
 }
 
+/**
+ * @brief Tells whether or not the Arduino kit must be automatically created
+ * @return `true` if automatically created; `false` otherwise
+ */
 bool ArduinoSettings::isAutoCreateKitEnabled() const
 {
     return m_createKit;
 }
 
+/**
+ * @brief Enables/Disables the automatic Arduino kit creation
+ * @param enabled
+ */
 void ArduinoSettings::setAutoCreateKit(bool enabled)
 {
     m_createKit = enabled;
 }
 
+/**
+ * @brief Returns the absolute path the the Arduino `boards.txt` file
+ * @return the absolute path the the Arduino `boards.txt` file
+ */
 Utils::FileName ArduinoSettings::boardsFile() const
 {
     QFileInfo fileInfo(m_sdkLocation.toString() + BoardsFileSuffix);
     return Utils::FileName(fileInfo);
 }
 
+/**
+ * @brief Returns the absolute path of the Arduino SDK headers
+ * @return the absolute path of the Arduino SDK headers
+ */
 Utils::FileName ArduinoSettings::sdkIncludePath() const
 {
     QFileInfo fileInfo(m_sdkLocation.toString() + ArduinoSdkHeadersPathSuffix);
     return Utils::FileName(fileInfo);
 }
 
+/**
+ * @brief Returns the absolute path of AVR bins
+ * @return the absolute path of AVR bins
+ */
 Utils::FileName ArduinoSettings::avrBinPath() const
 {
     QFileInfo fileInfo(m_sdkLocation.toString() + AvrBinPathSuffix);
     return Utils::FileName(fileInfo);
 }
 
+/**
+ * @brief Returns the absolute path of AVR headers
+ * @return the absolute path of AVR headers
+ */
 Utils::FileName ArduinoSettings::avrIncludePath() const
 {
     QFileInfo fileInfo(m_sdkLocation.toString() + AvrIncludePathSuffix);
     return Utils::FileName(fileInfo);
 }
 
+/**
+ * @brief Validate the given Arduino SDK path
+ * @param[in] path      Arduino SDK path to be validated
+ * @param[out] errorStr Set by the method if validation failed
+ * @return `true` is successfully validated; `false` otherwise
+ */
 bool ArduinoSettings::validate(const QString &path, QString &errorStr)
 {
     QFileInfo infos(path);
@@ -162,11 +210,20 @@ bool ArduinoSettings::validate(const QString &path, QString &errorStr)
     return true;
 }
 
+/**
+ * @brief Validates the current Arduino SDK path
+ * @param[out] errorStr Set by the method if validation failed
+ * @return `true` is successfully validated; `false` otherwise
+ */
 bool ArduinoSettings::validate(QString &errorStr) const
 {
     return validate(m_sdkLocation.toString(), errorStr);
 }
 
+/**
+ * @brief Returns the instance of the settings
+ * @return the instance of the settings
+ */
 ArduinoSettings *ArduinoSettings::instance()
 {
     if (!m_instance)
