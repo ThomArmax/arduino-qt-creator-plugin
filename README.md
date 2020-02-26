@@ -4,6 +4,13 @@ Arduino integration in QtCreator IDE
 
 Work In Progress!
 
+## Why this project
+- In order to familiarize myself with the QtCreator plugins
+- Arduino IDE is too basic for me (no completion, ...)
+- I love working with QtCreator IDE
+- Good chalenge for me :)
+- ...
+
 ## Expected features
 
 - Provide Arduino device support (SDK configuration, ...)
