@@ -17,9 +17,13 @@ Work In Progress!
 
 ## Arduino SDK setup
 
+`Tools -> Options`
+
 ![Arduino SDK config](res/arduino-device-config.png)
 
 
 ## Arduino Project
+
+`File -> New File or Project`
 
 ![Arduino Project](res/arduino-new-project.png)
