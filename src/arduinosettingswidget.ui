@@ -15,36 +15,6 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QGroupBox" name="groupBoxCompilerSettings">
-     <property name="title">
-      <string>Compiler Settings</string>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout_2">
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <item>
-         <widget class="QLabel" name="labelToolchainLocation">
-          <property name="text">
-           <string>Toolchain location:</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="Utils::PathChooser" name="toolchainLocationPathChooser" native="true">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
     <widget class="QGroupBox" name="groupBoxSdkSettings">
      <property name="title">
       <string>SDK Settings</string>
