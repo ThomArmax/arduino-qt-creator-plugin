@@ -73,17 +73,17 @@ bool ArduinoPlugin::initialize(const QStringList &arguments, QString *errorStrin
     Q_UNUSED(errorString)
 
     // Register objects
-    addAutoReleasedObject(new Internal::ArduinoSettingsPage);
-    addAutoReleasedObject(new Internal::ArduinoToolsMenu);
-    addAutoReleasedObject(new Internal::ArduinoToolChainFactory);
-    addAutoReleasedObject(new Internal::ArduinoDeviceFactory);
-    addAutoReleasedObject(new Internal::ArduinoDeviceConfigurationFactory);
+    addAutoReleasedObject(new ArduinoSettingsPage);
+    addAutoReleasedObject(new ArduinoToolsMenu);
+    addAutoReleasedObject(new ArduinoToolChainFactory);
+    addAutoReleasedObject(new ArduinoDeviceFactory);
+    addAutoReleasedObject(new ArduinoDeviceConfigurationFactory);
 
     // Register Arduino project wizard
     Core::IWizardFactory::registerFactoryCreator([] {
         return QList<Core::IWizardFactory *> {
-            new Internal::ArduinoProjectWizard,
-            new Internal::AvrProjectWizard
+            new ArduinoProjectWizard,
+            new AvrProjectWizard
         };
     });
 
