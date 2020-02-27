@@ -29,6 +29,9 @@ namespace Constants {
 
 const char ARDUINO_TOOLCHAIN_ID[] = "Avr.GccToolChain";
 
+const char AVR_DEVICE_ID[] = "Avr.Device";
+const char AVR_KIT_ID[] = "Avr.Kit";
+
 const char ARDUINO_OS_TYPE[] = "Arduino.OsType";
 
 // Arduino settings constants

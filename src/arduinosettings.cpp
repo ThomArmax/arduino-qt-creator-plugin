@@ -23,13 +23,34 @@
 **
 ****************************************************************************/
 #include "arduinosettings.h"
+#include "arduinoconstants.h"
+#include "toolchain/arduinotoolchain.h"
 
 #include <QFileInfo>
 
 #include <utils/fileutils.h>
+
 #include <coreplugin/icore.h>
 
+#include <projectexplorer/projectexplorerconstants.h>
+#include <projectexplorer/toolchainmanager.h>
+#include <projectexplorer/toolchain.h>
+#include <projectexplorer/kit.h>
+#include <projectexplorer/kitinformation.h>
+#include <projectexplorer/kitmanager.h>
+
+#include <qtsupport/baseqtversion.h>
+#include <qtsupport/qtversionmanager.h>
+#include <qtsupport/qtkitinformation.h>
+
+#include <debugger/debuggeritem.h>
+#include <debugger/debuggeritemmanager.h>
+#include <debugger/debuggerkitinformation.h>
+
 using namespace Utils;
+using namespace ProjectExplorer;
+using namespace QtSupport;
+using namespace Debugger;
 
 namespace Arduino {
 namespace Internal {
@@ -72,6 +93,9 @@ void ArduinoSettings::load()
     setAutoCreateKit(settings->value(CreateKitKey).toBool());
 
     settings->endGroup();
+    QString dummy;
+    if (m_createKit && validate(m_sdkLocation.toString(), dummy))
+        createTools();
 }
 
 /**
@@ -208,6 +232,68 @@ bool ArduinoSettings::validate(const QString &path, QString &errorStr)
     }
 
     return true;
+}
+
+/**
+ * @brief Creates the tools (toolchain, kit) for Arduino/AVR
+ */
+void ArduinoSettings::createTools()
+{
+    ArduinoToolChain * tc = createToolchain();
+    createKit(tc);
+}
+
+/**
+ * @brief Creates the Arduino toolchain and returns it
+ * @note This method registers the created toolchain
+ * @return create toolchain
+ */
+ArduinoToolChain * ArduinoSettings::createToolchain()
+{
+    ArduinoToolChain * toolChain = new ArduinoToolChain(ToolChain::AutoDetection);
+    toolChain->setLanguage(ProjectExplorer::Constants::CXX_LANGUAGE_ID);
+    toolChain->setDisplayName(QCoreApplication::translate("Arduino::Internal::ArduinoSettings", "AVR GCC (C++ compiler)"));
+    ToolChainManager::registerToolChain(toolChain);
+
+    return toolChain;
+}
+
+/**
+ * @brief Creates the Arduino kit with the given toolchain and returns it
+ * @note This method registers the created kit
+ * @param toolChain
+ * @return create kit
+ */
+Kit * ArduinoSettings::createKit(ArduinoToolChain *toolChain)
+{
+    Kit *kit = new Kit;
+
+    ToolChainKitInformation::setToolChain(kit, toolChain);
+    ToolChainKitInformation::clearToolChain(kit, ProjectExplorer::Constants::C_LANGUAGE_ID);
+
+    // No Qt configuration
+    QtKitInformation::setQtVersion(kit, nullptr);
+
+    // Set device type
+    DeviceTypeKitInformation::setDeviceTypeId(kit, Constants::ARDUINO_OS_TYPE);
+
+    kit->setUnexpandedDisplayName(QCoreApplication::translate("Arduino::Internal::ArduinoSettings", "Kit for Arduino"));
+
+    kit->setAutoDetected(true);
+    kit->setAutoDetectionSource(m_sdkLocation.toString());
+    kit->setMutable(DeviceKitInformation::id(), true);
+
+    kit->setSticky(ToolChainKitInformation::id(), true);
+    kit->setSticky(DeviceTypeKitInformation::id(), true);
+    kit->setSticky(SysRootKitInformation::id(), true);
+    kit->setSticky(DebuggerKitInformation::id(), true);
+    kit->setSticky(QtKitInformation::id(), true);
+
+//    kit->setSticky(QmakeProjectManager::QmakeKitInformation::id(), true);
+
+    // add kit with device not sticky
+    KitManager::registerKit(kit);
+    return kit;
 }
 
 /**

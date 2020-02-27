@@ -28,8 +28,16 @@
 #include <QSettings>
 #include <utils/fileutils.h>
 
+namespace ProjectExplorer {
+    class Kit;
+    class ToolChain;
+}
+
+
 namespace Arduino {
 namespace Internal {
+
+class ArduinoToolChain;
 
 /**
  * @brief Arduino SDK settings
@@ -58,6 +66,9 @@ public:
 
 private:
     ArduinoSettings();
+    void createTools();
+    ArduinoToolChain * createToolchain();
+    ProjectExplorer::Kit *createKit(ArduinoToolChain *toolChain);
 
 private:
     Utils::FileName m_sdkLocation; ///< Arduino SDK location
