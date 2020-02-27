@@ -13,6 +13,7 @@ SOURCES += \
     wizards/projects/avr/avrprojectwizard.cpp \
     wizards/projects/arduino/arduinoprojectwizarddialog.cpp \
     wizards/projects/arduino/arduinofilesselectionwizardpage.cpp \
+    wizards/projects/arduino/arduinohardwareconfigurationpage.cpp \
     device/arduinodevice.cpp \
     device/arduinodeviceconfigurationwizard.cpp \
     device/arduinodevicefactory.cpp \
@@ -33,6 +34,7 @@ HEADERS += \
     wizards/projects/avr/avrprojectwizard.h \
     wizards/projects/arduino/arduinoprojectwizarddialog.h \
     wizards/projects/arduino/arduinofilesselectionwizardpage.h \
+    wizards/projects/arduino/arduinohardwareconfigurationpage.h \
     device/arduinodevice.h \
     device/arduinodeviceconfigurationwizard.h \
     device/arduinodevicefactory.h \
