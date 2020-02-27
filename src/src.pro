@@ -12,7 +12,13 @@ SOURCES += \
     wizards/projects/arduino/arduinoprojectwizard.cpp \
     wizards/projects/avr/avrprojectwizard.cpp \
     wizards/projects/arduino/arduinoprojectwizarddialog.cpp \
-    wizards/projects/arduino/arduinofilesselectionwizardpage.cpp
+    wizards/projects/arduino/arduinofilesselectionwizardpage.cpp \
+    device/arduinodevice.cpp \
+    device/arduinodeviceconfigurationwizard.cpp \
+    device/arduinodevicefactory.cpp \
+    device/arduinodeviceconfigurationwizardsetuppage.cpp \
+    device/arduinodeviceconfigurationwidget.cpp \
+    device/arduinodeviceconfigurationfactory.cpp
 
 HEADERS += \
     arduino_global.h \
@@ -26,7 +32,13 @@ HEADERS += \
     wizards/projects/arduino/arduinoprojectwizard.h \
     wizards/projects/avr/avrprojectwizard.h \
     wizards/projects/arduino/arduinoprojectwizarddialog.h \
-    wizards/projects/arduino/arduinofilesselectionwizardpage.h
+    wizards/projects/arduino/arduinofilesselectionwizardpage.h \
+    device/arduinodevice.h \
+    device/arduinodeviceconfigurationwizard.h \
+    device/arduinodevicefactory.h \
+    device/arduinodeviceconfigurationwizardsetuppage.h \
+    device/arduinodeviceconfigurationwidget.h \
+    device/arduinodeviceconfigurationfactory.h
 
 # Qt Creator linking
 

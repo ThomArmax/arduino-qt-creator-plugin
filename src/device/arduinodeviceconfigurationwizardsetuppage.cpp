@@ -22,29 +22,48 @@
 ** SOFTWARE.
 **
 ****************************************************************************/
-#pragma once
+#include "arduinodeviceconfigurationwizardsetuppage.h"
+
+#include <QFormLayout>
+#include <QLineEdit>
 
 namespace Arduino {
-namespace Constants {
+namespace Internal {
 
-const char ARDUINO_TOOLCHAIN_ID[] = "Avr.GccToolChain";
+ArduinoDeviceConfigurationWizardSetupPage::ArduinoDeviceConfigurationWizardSetupPage(
+        QWidget *parent)
+    : QWizardPage(parent)
+{
+    setTitle(tr("Set up Arduino device"));
 
-const char ARDUINO_OS_TYPE[] = "Arduino.OsType";
+    auto formLayout = new QFormLayout(this);
+    formLayout->setFieldGrowthPolicy(QFormLayout::AllNonFixedFieldsGrow);
+    m_nameLineEdit = new QLineEdit(this);
+    formLayout->addRow(tr("Name:"), m_nameLineEdit);
 
-// Arduino settings constants
-const char ARDUINO_SETTINGS_ID[] = "Arduino.Configuration";
+    connect(m_nameLineEdit, &QLineEdit::textChanged,
+            this, &ArduinoDeviceConfigurationWizardSetupPage::completeChanged);
+}
 
-// Arduino tools menu constants
-const char ARDUINO_TOOLS_MENU_ARDUINO_ID[]              = "Arduino.Tools.Menu";
-const char ARDUINO_TOOLS_MENU_DOWNLOAD_ACTION[]         = "Arduino.Tools.Menu.Download.Action";
-const char ARDUINO_TOOLS_MENU_SERIAL_MONITOR_ACTION[]   = "Arduino.Tools.Menu.SerialMonitor.Action";
+void ArduinoDeviceConfigurationWizardSetupPage::initializePage()
+{
+    m_nameLineEdit->setText(defaultConfigurationName());
+}
 
-// Arduino projects constants
-const char ARDUINO_PROJECT_WIZARD_CATEGORY[]  = "Arduino.Projects.ArduinoProject";
-const char ARDIUNO_PROJECT_WIZARD_CATEGORY_DISPLAY[] = QT_TRANSLATE_NOOP("ProjectExplorer", "Arduino");
+bool ArduinoDeviceConfigurationWizardSetupPage::isComplete() const
+{
+    return !configurationName().isEmpty();
+}
 
-// Mime types
-const char INO_SOURCE_MIMETYPE[] = "text/x-ino-src";
+QString ArduinoDeviceConfigurationWizardSetupPage::configurationName() const
+{
+    return m_nameLineEdit->text().trimmed();
+}
 
-} // namespace Constants
+QString ArduinoDeviceConfigurationWizardSetupPage::defaultConfigurationName() const
+{
+    return tr("Arduino Device");
+}
+
+} // namespace Internal
 } // namespace Arduino

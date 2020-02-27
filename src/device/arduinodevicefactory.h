@@ -22,29 +22,36 @@
 ** SOFTWARE.
 **
 ****************************************************************************/
-#pragma once
+#ifndef ARDUINODEVICEFACTORY_H
+#define ARDUINODEVICEFACTORY_H
+
+#include <projectexplorer/devicesupport/idevicefactory.h>
 
 namespace Arduino {
-namespace Constants {
+namespace Internal {
 
-const char ARDUINO_TOOLCHAIN_ID[] = "Avr.GccToolChain";
+class ArduinoDeviceFactory : public ProjectExplorer::IDeviceFactory
+{
+    Q_OBJECT
 
-const char ARDUINO_OS_TYPE[] = "Arduino.OsType";
+public:
+    explicit ArduinoDeviceFactory(QObject *parent = 0);
 
-// Arduino settings constants
-const char ARDUINO_SETTINGS_ID[] = "Arduino.Configuration";
+    QString displayNameForId(Core::Id type) const;
+    QList<Core::Id> availableCreationIds() const;
+    QIcon iconForId(Core::Id type) const;
 
-// Arduino tools menu constants
-const char ARDUINO_TOOLS_MENU_ARDUINO_ID[]              = "Arduino.Tools.Menu";
-const char ARDUINO_TOOLS_MENU_DOWNLOAD_ACTION[]         = "Arduino.Tools.Menu.Download.Action";
-const char ARDUINO_TOOLS_MENU_SERIAL_MONITOR_ACTION[]   = "Arduino.Tools.Menu.SerialMonitor.Action";
+    bool canCreate() const;
+    ProjectExplorer::IDevice::Ptr create(Core::Id id) const;
 
-// Arduino projects constants
-const char ARDUINO_PROJECT_WIZARD_CATEGORY[]  = "Arduino.Projects.ArduinoProject";
-const char ARDIUNO_PROJECT_WIZARD_CATEGORY_DISPLAY[] = QT_TRANSLATE_NOOP("ProjectExplorer", "Arduino");
+    bool canRestore(const QVariantMap &map) const;
+    ProjectExplorer::IDevice::Ptr restore(const QVariantMap &map) const;
 
-// Mime types
-const char INO_SOURCE_MIMETYPE[] = "text/x-ino-src";
+    static Core::Id deviceType();
+};
 
-} // namespace Constants
-} // namespace Arduino
+} // namespace Internal
+} // namespace ArduinoToolchain
+
+
+#endif // ARDUINODEVICEFACTORY_H

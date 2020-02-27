@@ -22,29 +22,33 @@
 ** SOFTWARE.
 **
 ****************************************************************************/
-#pragma once
+#include "arduinodeviceconfigurationwizard.h"
+#include "../arduinoconstants.h"
+#include "arduinodevice.h"
 
 namespace Arduino {
-namespace Constants {
+namespace Internal {
 
-const char ARDUINO_TOOLCHAIN_ID[] = "Avr.GccToolChain";
+enum PageId { SetupPageId };
 
-const char ARDUINO_OS_TYPE[] = "Arduino.OsType";
+ArduinoDeviceConfigurationWizard::ArduinoDeviceConfigurationWizard(QWidget *parent)
+    : Utils::Wizard(parent)
+    , m_setupPage(new ArduinoDeviceConfigurationWizardSetupPage(this))
+{
+    setWindowTitle(tr("New Arduino Device Configuration Setup"));
+    setPage(SetupPageId, m_setupPage);
+    m_setupPage->setCommitPage(true);
+}
 
-// Arduino settings constants
-const char ARDUINO_SETTINGS_ID[] = "Arduino.Configuration";
+ProjectExplorer::IDevice::Ptr ArduinoDeviceConfigurationWizard::device() const
+{
+    auto dev = ArduinoDevice::create(m_setupPage->configurationName(),
+                                     Constants::ARDUINO_OS_TYPE,
+                                     ProjectExplorer::IDevice::Hardware);
 
-// Arduino tools menu constants
-const char ARDUINO_TOOLS_MENU_ARDUINO_ID[]              = "Arduino.Tools.Menu";
-const char ARDUINO_TOOLS_MENU_DOWNLOAD_ACTION[]         = "Arduino.Tools.Menu.Download.Action";
-const char ARDUINO_TOOLS_MENU_SERIAL_MONITOR_ACTION[]   = "Arduino.Tools.Menu.SerialMonitor.Action";
+    return dev;
+}
 
-// Arduino projects constants
-const char ARDUINO_PROJECT_WIZARD_CATEGORY[]  = "Arduino.Projects.ArduinoProject";
-const char ARDIUNO_PROJECT_WIZARD_CATEGORY_DISPLAY[] = QT_TRANSLATE_NOOP("ProjectExplorer", "Arduino");
 
-// Mime types
-const char INO_SOURCE_MIMETYPE[] = "text/x-ino-src";
-
-} // namespace Constants
-} // namespace Arduino
+} // namespace Internal
+} // namespace ArduinoToolchain

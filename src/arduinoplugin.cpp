@@ -27,6 +27,8 @@
 #include "arduinosettingspage.h"
 #include "arduinotoolchain.h"
 #include "arduinotoolsmenu.h"
+#include "device/arduinodevicefactory.h"
+#include "device/arduinodeviceconfigurationfactory.h"
 #include "wizards/projects/arduino/arduinoprojectwizard.h"
 #include "wizards/projects/avr/avrprojectwizard.h"
 
@@ -74,6 +76,8 @@ bool ArduinoPlugin::initialize(const QStringList &arguments, QString *errorStrin
     addAutoReleasedObject(new Internal::ArduinoSettingsPage);
     addAutoReleasedObject(new Internal::ArduinoToolsMenu);
     addAutoReleasedObject(new Internal::ArduinoToolChainFactory);
+    addAutoReleasedObject(new Internal::ArduinoDeviceFactory);
+    addAutoReleasedObject(new Internal::ArduinoDeviceConfigurationFactory);
 
     // Register Arduino project wizard
     Core::IWizardFactory::registerFactoryCreator([] {

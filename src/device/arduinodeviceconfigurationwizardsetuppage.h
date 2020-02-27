@@ -22,29 +22,34 @@
 ** SOFTWARE.
 **
 ****************************************************************************/
-#pragma once
+#ifndef ARDUINODEVICECONFIGURATIONWIZARDSETUPPAGE_H
+#define ARDUINODEVICECONFIGURATIONWIZARDSETUPPAGE_H
+
+#include <QWizardPage>
+
+QT_BEGIN_NAMESPACE
+class QLineEdit;
+QT_END_NAMESPACE
 
 namespace Arduino {
-namespace Constants {
+namespace Internal {
 
-const char ARDUINO_TOOLCHAIN_ID[] = "Avr.GccToolChain";
+class ArduinoDeviceConfigurationWizardSetupPage : public QWizardPage
+{
+public:
+    ArduinoDeviceConfigurationWizardSetupPage(QWidget *parent = nullptr);
 
-const char ARDUINO_OS_TYPE[] = "Arduino.OsType";
+    void initializePage();
+    bool isComplete() const;
+    QString configurationName() const;
 
-// Arduino settings constants
-const char ARDUINO_SETTINGS_ID[] = "Arduino.Configuration";
+    virtual QString defaultConfigurationName() const;
 
-// Arduino tools menu constants
-const char ARDUINO_TOOLS_MENU_ARDUINO_ID[]              = "Arduino.Tools.Menu";
-const char ARDUINO_TOOLS_MENU_DOWNLOAD_ACTION[]         = "Arduino.Tools.Menu.Download.Action";
-const char ARDUINO_TOOLS_MENU_SERIAL_MONITOR_ACTION[]   = "Arduino.Tools.Menu.SerialMonitor.Action";
+private:
+    QLineEdit *m_nameLineEdit;
+};
 
-// Arduino projects constants
-const char ARDUINO_PROJECT_WIZARD_CATEGORY[]  = "Arduino.Projects.ArduinoProject";
-const char ARDIUNO_PROJECT_WIZARD_CATEGORY_DISPLAY[] = QT_TRANSLATE_NOOP("ProjectExplorer", "Arduino");
-
-// Mime types
-const char INO_SOURCE_MIMETYPE[] = "text/x-ino-src";
-
-} // namespace Constants
+} // namespace Internal
 } // namespace Arduino
+
+#endif // ARDUINODEVICECONFIGURATIONWIZARDSETUPPAGE_H

@@ -22,29 +22,31 @@
 ** SOFTWARE.
 **
 ****************************************************************************/
-#pragma once
+#include "arduinodeviceconfigurationwidget.h"
+#include "arduinodevice.h"
+
+#include <utils/qtcassert.h>
+
+#include <QFormLayout>
 
 namespace Arduino {
-namespace Constants {
+namespace Internal {
 
-const char ARDUINO_TOOLCHAIN_ID[] = "Avr.GccToolChain";
 
-const char ARDUINO_OS_TYPE[] = "Arduino.OsType";
+ArduinoDeviceConfigurationWidget::ArduinoDeviceConfigurationWidget(const ProjectExplorer::IDevice::Ptr &deviceConfig, QWidget *parent)
+    : IDeviceWidget(deviceConfig, parent)
+{
+    const auto dev = qSharedPointerCast<const ArduinoDevice>(device());
+    QTC_ASSERT(dev, return);
 
-// Arduino settings constants
-const char ARDUINO_SETTINGS_ID[] = "Arduino.Configuration";
+    auto formLayout = new QFormLayout(this);
+    formLayout->setFieldGrowthPolicy(QFormLayout::ExpandingFieldsGrow);
+}
 
-// Arduino tools menu constants
-const char ARDUINO_TOOLS_MENU_ARDUINO_ID[]              = "Arduino.Tools.Menu";
-const char ARDUINO_TOOLS_MENU_DOWNLOAD_ACTION[]         = "Arduino.Tools.Menu.Download.Action";
-const char ARDUINO_TOOLS_MENU_SERIAL_MONITOR_ACTION[]   = "Arduino.Tools.Menu.SerialMonitor.Action";
+void ArduinoDeviceConfigurationWidget::updateDeviceFromUi()
+{
 
-// Arduino projects constants
-const char ARDUINO_PROJECT_WIZARD_CATEGORY[]  = "Arduino.Projects.ArduinoProject";
-const char ARDIUNO_PROJECT_WIZARD_CATEGORY_DISPLAY[] = QT_TRANSLATE_NOOP("ProjectExplorer", "Arduino");
+}
 
-// Mime types
-const char INO_SOURCE_MIMETYPE[] = "text/x-ino-src";
-
-} // namespace Constants
+} // namespace Internal
 } // namespace Arduino

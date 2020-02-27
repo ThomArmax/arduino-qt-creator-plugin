@@ -22,29 +22,24 @@
 ** SOFTWARE.
 **
 ****************************************************************************/
-#pragma once
+#ifndef ARDUINODEVICECONFIGURATIONWIDGET_H
+#define ARDUINODEVICECONFIGURATIONWIDGET_H
+
+#include <projectexplorer/devicesupport/idevicewidget.h>
 
 namespace Arduino {
-namespace Constants {
+namespace Internal {
 
-const char ARDUINO_TOOLCHAIN_ID[] = "Avr.GccToolChain";
+class ArduinoDeviceConfigurationWidget : public ProjectExplorer::IDeviceWidget
+{
+public:
+    explicit ArduinoDeviceConfigurationWidget(const ProjectExplorer::IDevice::Ptr &deviceConfig, QWidget *parent = nullptr);
 
-const char ARDUINO_OS_TYPE[] = "Arduino.OsType";
+private:
+    void updateDeviceFromUi();
+};
 
-// Arduino settings constants
-const char ARDUINO_SETTINGS_ID[] = "Arduino.Configuration";
-
-// Arduino tools menu constants
-const char ARDUINO_TOOLS_MENU_ARDUINO_ID[]              = "Arduino.Tools.Menu";
-const char ARDUINO_TOOLS_MENU_DOWNLOAD_ACTION[]         = "Arduino.Tools.Menu.Download.Action";
-const char ARDUINO_TOOLS_MENU_SERIAL_MONITOR_ACTION[]   = "Arduino.Tools.Menu.SerialMonitor.Action";
-
-// Arduino projects constants
-const char ARDUINO_PROJECT_WIZARD_CATEGORY[]  = "Arduino.Projects.ArduinoProject";
-const char ARDIUNO_PROJECT_WIZARD_CATEGORY_DISPLAY[] = QT_TRANSLATE_NOOP("ProjectExplorer", "Arduino");
-
-// Mime types
-const char INO_SOURCE_MIMETYPE[] = "text/x-ino-src";
-
-} // namespace Constants
+} // namespace Internal
 } // namespace Arduino
+
+#endif // ARDUINODEVICECONFIGURATIONWIDGET_H
