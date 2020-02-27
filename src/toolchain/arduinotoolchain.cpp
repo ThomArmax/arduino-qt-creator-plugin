@@ -23,7 +23,7 @@
 **
 ****************************************************************************/
 #include "arduinotoolchain.h"
-#include "arduinoconstants.h"
+#include "../arduinoconstants.h"
 
 #include "projectexplorer/toolchain.h"
 #include "projectexplorer/projectexplorerconstants.h"
@@ -57,7 +57,7 @@ ArduinoToolChain::ArduinoToolChain(Core::Id l, ToolChain::Detection d)
 
 QString ArduinoToolChain::typeDisplayName() const
 {
-    return ArduinoToolChainFactory::tr("AVR/Arduino");
+    return ArduinoToolChainFactory::tr("AVR GCC");
 }
 
 ToolChainConfigWidget *ArduinoToolChain::configurationWidget()
@@ -71,7 +71,7 @@ ToolChainConfigWidget *ArduinoToolChain::configurationWidget()
 
 ArduinoToolChainFactory::ArduinoToolChainFactory()
 {
-    setDisplayName(tr("AVR/Arduino"));
+    setDisplayName(tr("AVR GCC"));
 }
 
 QSet<Core::Id> ArduinoToolChainFactory::supportedLanguages() const

@@ -6,9 +6,9 @@ SOURCES += \
     arduinoplugin.cpp \
     arduinosettingspage.cpp \
     arduinosettingswidget.cpp \
-    arduinotoolchain.cpp \
     arduinotoolsmenu.cpp \
     arduinosettings.cpp \
+    toolchain/arduinotoolchain.cpp \
     wizards/projects/arduino/arduinoprojectwizard.cpp \
     wizards/projects/avr/avrprojectwizard.cpp \
     wizards/projects/arduino/arduinoprojectwizarddialog.cpp \
@@ -26,9 +26,9 @@ HEADERS += \
     arduinoplugin.h \
     arduinosettingspage.h \
     arduinosettingswidget.h \
-    arduinotoolchain.h \
     arduinotoolsmenu.h \
     arduinosettings.h \
+    toolchain/arduinotoolchain.h \
     wizards/projects/arduino/arduinoprojectwizard.h \
     wizards/projects/avr/avrprojectwizard.h \
     wizards/projects/arduino/arduinoprojectwizarddialog.h \
