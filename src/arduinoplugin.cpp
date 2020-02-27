@@ -25,6 +25,7 @@
 #include "arduinoplugin.h"
 #include "arduinoconstants.h"
 #include "arduinosettingspage.h"
+#include "arduinosettings.h"
 #include "arduinotoolsmenu.h"
 #include "toolchain/arduinotoolchain.h"
 #include "device/arduinodevicefactory.h"
@@ -71,6 +72,9 @@ bool ArduinoPlugin::initialize(const QStringList &arguments, QString *errorStrin
 
     Q_UNUSED(arguments)
     Q_UNUSED(errorString)
+
+    // Loads the settings during plugin init
+    ArduinoSettings::instance()->load();
 
     // Register objects
     addAutoReleasedObject(new ArduinoSettingsPage);
