@@ -28,7 +28,12 @@
 #pragma once
 
 #include <projectexplorer/gcctoolchain.h>
-#include <projectexplorer/gcctoolchainfactories.h>
+#include <projectexplorer/toolchainconfigwidget.h>
+#include <projectexplorer/toolchain.h>
+
+#include <utils/pathchooser.h>
+
+using namespace ProjectExplorer;
 
 namespace Arduino {
 namespace Internal {
@@ -45,6 +50,8 @@ public:
 
     QString typeDisplayName() const override;
     ProjectExplorer::ToolChainConfigWidget *configurationWidget() override;
+
+    friend class ArduinoToolChainFactory;
 };
 
 // --------------------------------------------------------------------------
@@ -60,8 +67,18 @@ public:
 
     QSet<Core::Id> supportedLanguages() const override;
 
+    QList<ToolChain *> autoDetect(const QList<ToolChain *> &alreadyKnown) override;
+    QList<ToolChain *> autoDetect(const Utils::FileName &compilerPath, const Core::Id &language) override;
+
     bool canCreate() override;
     ProjectExplorer::ToolChain *create(Core::Id l) override;
+
+protected:
+    QList<ToolChain *> autoDetectToolchains(const QString &compiler, const Abi &requiredAbi,
+                                            Core::Id language, const Core::Id requiredTypeId,
+                                            const QList<ToolChain *> &alreadyKnown);
+    QList<ToolChain *> autoDetectToolChain(const Utils::FileName &compilerPath, const Core::Id language,
+                                           const Abi &requiredAbi = Abi());
 };
 
 // --------------------------------------------------------------------------
@@ -73,6 +90,7 @@ class ArduinoToolChainConfigWidget : public ProjectExplorer::ToolChainConfigWidg
     Q_OBJECT
 public:
     explicit ArduinoToolChainConfigWidget(ArduinoToolChain *tc);
+    virtual ~ArduinoToolChainConfigWidget();
 
 private:
     void handleCompilerCommandChange();
