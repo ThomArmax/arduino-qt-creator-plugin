@@ -1,0 +1,147 @@
+{
+    "version": 1,
+    "supportedProjectTypes": [ "Qt4ProjectManager.Qt4Project" ],
+    "id": "A.atpAVR",
+    "category": "B.AVR",
+    "trDescription": "Creates an AVR qmake-based project.",
+    "trDisplayName": " C/C++ AVR",
+    "trDisplayCategory": "AVR",
+    "icon": ":/wizards/arduino_logo.png",
+    "featuresRequired": [ "QtSupport.Wizards.FeatureQt" ],
+    "enabled": "%{JS: [ %{Plugins} ].indexOf('QmakeProjectManager') >= 0}",
+    "options":
+    [
+        { "key": "ProFileName", "value": "%{JS: Util.fileName('%{ProjectDirectory}/%{ProjectName}', 'pro')}" },
+        { "key": "IsTopLevelProject", "value": "%{JS: !'%{Exists:ProjectExplorer.Profile.Ids}'}" },
+        { "key": "atpAVRinclude" , "value" : "__AVR_%{atpIcType}__" },
+        { "key": "atpMCU", "value": "%{atpIcType}" },
+        { "key": "atpSpeed", "value": "%{atpAVRSpeed}" },
+        { "key": "atpProgrammer", "value": "%{atpPrg}" },
+        { "key": "atpPort", "value": "%{atpAVRPort}" }
+    ],
+
+    "pages":
+    [
+        {
+            "trDisplayName": "Project Location",
+            "trShortTitle": "Location",
+            "typeId": "Project",
+            "data": { "trDescription": "This wizard creates an AVR project for you to use with Qt Creator." }
+        },
+        
+        
+        {
+            "trDisplayName": "The type of the IC that you want to program",
+            "trShortTitle": "Ic Type",
+            "typeId": "Fields",
+            "enabled": "%{JS: ! %{IsSubproject}}",
+            "data":
+            [
+                {
+                    "name": "atpIcType",
+                    "trDisplayName": "Microcontroller name:",
+                    "type": "ComboBox",
+                    "data":
+                    {
+                        "index": 0,
+                        "items":
+                        [
+                            {
+                                "trKey": "ATmega2560",
+                                "value": "ATmega2560"
+                            },
+                            {
+                                "trKey": "ATmega168",
+                                "value": "atmega168"
+                            },
+                            {
+                                "trKey": "ATmega320",
+                                "value": "atmega320"
+                            }
+                        ]
+                    }
+                },
+               
+               {
+                    "name": "atpAVRSpeed",
+                    "type": "LineEdit",
+                    "trDisplayName": "Frequency value in HZ:",
+                    "mandatory": true,
+                    "data": 
+                        {
+                            "trText": "16000000"
+                        }
+                },
+                {
+                    "name": "atpPrg",
+                    "trDisplayName": "Programmer type:",
+                    "type": "ComboBox",
+                    "data":
+                    {
+                        "index": 0,
+                        "items":
+                        [
+                            {
+                                "trKey": "USBasp",
+                                "value": "usbasp"
+                            },
+                            {
+                                "trKey": "FT232H",
+                                "value": "UM232H"
+                            },
+                            {
+                                "trKey": "Arduino Uno",
+                                "value": "arduino"
+                            }
+                        ]
+                    }
+                },
+                
+                {
+                    "name": "atpAVRPort",
+                    "type": "LineEdit",
+                    "trDisplayName": "Programmer port used:",
+                    "mandatory": true,
+                    "data": 
+                        {
+                            "trText": "usb"
+                        }
+                }
+
+                
+            ]
+        },
+
+
+
+        {
+            "trDisplayName": "Project Management",
+            "trShortTitle": "Summary",
+            "typeId": "Summary"
+        }
+    ],
+    "generators":
+    [
+        {
+            "typeId": "File",
+            "data":
+            [
+                {
+                    "source": "project.pro",
+                    "target": "%{ProFileName}",
+                    "openAsProject": true
+                },
+                {
+                    "source": "main.cpp",
+                    "target": "main.cpp",
+                    "openAsProject": false
+                },
+                {
+                    "source": "../../git.ignore",
+                    "target": "%{ProjectDirectory}/.gitignore",
+                    "condition": "%{JS: %{IsTopLevelProject} && '%{VersionControl}' === 'G.Git'}"
+                }
+            ]
+        }
+    ]
+}

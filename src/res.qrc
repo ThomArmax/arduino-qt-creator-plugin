@@ -4,4 +4,10 @@
         <file alias="avr.png">wizards/projects/avr/avr.png</file>
         <file alias="arduino.ino">wizards/projects/arduino/arduino.ino</file>
     </qresource>
+    <qresource prefix="/">
+        <file>wizards/projects/avr/wizard.json</file>
+        <file>wizards/projects/avr/avr.png</file>
+        <file>wizards/projects/avr/main.cpp</file>
+        <file>wizards/projects/avr/project.pro</file>
+    </qresource>
 </RCC>

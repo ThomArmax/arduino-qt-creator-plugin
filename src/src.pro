@@ -88,7 +88,9 @@ FORMS += \
 DISTFILES += \
     README.md \
     Arduino.json.in \
-    wizards/projects/arduino/arduino.ino
+    wizards/projects/arduino/arduino.ino \
+    wizards/projects/avr/wizard.json \
+    wizards/projects/avr/avr.png
 
 RESOURCES += \
     res.qrc

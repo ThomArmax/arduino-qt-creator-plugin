@@ -40,6 +40,7 @@
 #include <coreplugin/actionmanager/actioncontainer.h>
 #include <coreplugin/coreconstants.h>
 #include <projectexplorer/customwizard/customwizard.h>
+#include <projectexplorer/jsonwizard/jsonwizardfactory.h>
 
 #include <QAction>
 #include <QMessageBox>
@@ -90,6 +91,8 @@ bool ArduinoPlugin::initialize(const QStringList &arguments, QString *errorStrin
             new AvrProjectWizard
         };
     });
+
+    JsonWizardFactory::addWizardPath(Utils::FileName::fromString(":/wizards/projects/"));
 
     return true;
 }
