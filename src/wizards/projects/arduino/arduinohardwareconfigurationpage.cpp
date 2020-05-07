@@ -27,9 +27,13 @@
 namespace Arduino {
 namespace Internal {
 
-ArduinoHardwareConfigurationPage::ArduinoHardwareConfigurationPage()
+ArduinoHardwareConfigurationPage::ArduinoHardwareConfigurationPage(QWidget *parent)
+    : Utils::WizardPage(parent)
 {
+    setLayout(&m_formLayout);
+    m_formLayout.addRow("Board", &m_boardsComboBox);
 
+    m_boardsComboBox.insertItem(0, "Uno");
 }
 
 } // namespace Internal

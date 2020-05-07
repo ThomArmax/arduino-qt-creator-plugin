@@ -47,7 +47,7 @@ public:
     Utils::FileNameList selectedPaths() const;
 
 private:
-    ArduinoProjectWizardDialog *m_genericProjectWizardDialog;
+    ArduinoProjectWizardDialog *m_arduinoProjectWizardDialog;
     ProjectExplorer::SelectableFilesWidget *m_filesWidget;
 };
 

@@ -74,11 +74,15 @@ ArduinoSettings *ArduinoSettings::m_instance = nullptr;
 /**
  * @brief Default constructor
  */
-ArduinoSettings::ArduinoSettings()
-    : m_sdkLocation()
+ArduinoSettings::ArduinoSettings(QObject *parent)
+    : QObject(parent)
+    , m_sdkLocation()
     , m_createKit(false)
 {
     m_instance = this;
+
+    load();
+    connect(KitManager::instance(), &KitManager::kitsLoaded, this, &ArduinoSettings::onKitsLoaded);
 }
 
 /**
@@ -93,9 +97,6 @@ void ArduinoSettings::load()
     setAutoCreateKit(settings->value(CreateKitKey).toBool());
 
     settings->endGroup();
-    QString dummy;
-    if (m_createKit && validate(m_sdkLocation.toString(), dummy))
-        createTools();
 }
 
 /**
@@ -236,9 +237,11 @@ bool ArduinoSettings::validate(const QString &path, QString &errorStr)
 
 /**
  * @brief Creates the tools (toolchain, kit) for Arduino/AVR
+ * @internal On Linux, created Kit is stored in ~/.config/QtProject/qtcreator/profiles.xml
  */
 void ArduinoSettings::createTools()
 {
+    qDebug() << Q_FUNC_INFO;
     ArduinoToolChain * tc = createToolchain();
     createKit(tc);
 }
@@ -253,6 +256,9 @@ ArduinoToolChain * ArduinoSettings::createToolchain()
     ArduinoToolChain * toolChain = new ArduinoToolChain(ToolChain::AutoDetection);
     toolChain->setLanguage(ProjectExplorer::Constants::CXX_LANGUAGE_ID);
     toolChain->setDisplayName(QCoreApplication::translate("Arduino::Internal::ArduinoSettings", "AVR GCC (C++ compiler)"));
+    Utils::FileName binPath;
+    binPath.appendPath(m_sdkLocation.toString()).appendPath(AvrBinPathSuffix).appendPath("avr-gcc");
+    toolChain->resetToolChain(binPath);
     ToolChainManager::registerToolChain(toolChain);
 
     return toolChain;
@@ -266,7 +272,7 @@ ArduinoToolChain * ArduinoSettings::createToolchain()
  */
 Kit * ArduinoSettings::createKit(ArduinoToolChain *toolChain)
 {
-    Kit *kit = new Kit;
+    Kit *kit = new Kit(/*Constants::AVR_KIT_ID*/);
 
     ToolChainKitInformation::setToolChain(kit, toolChain);
     ToolChainKitInformation::clearToolChain(kit, ProjectExplorer::Constants::C_LANGUAGE_ID);
@@ -278,6 +284,7 @@ Kit * ArduinoSettings::createKit(ArduinoToolChain *toolChain)
     DeviceTypeKitInformation::setDeviceTypeId(kit, Constants::ARDUINO_OS_TYPE);
 
     kit->setUnexpandedDisplayName(QCoreApplication::translate("Arduino::Internal::ArduinoSettings", "Kit for Arduino"));
+    kit->setIconPath(FileName::fromString(":/wizards/arduino_logo.png"));
 
     kit->setAutoDetected(true);
     kit->setAutoDetectionSource(m_sdkLocation.toString());
@@ -315,6 +322,23 @@ ArduinoSettings *ArduinoSettings::instance()
     if (!m_instance)
         m_instance = new ArduinoSettings();
     return m_instance;
+}
+
+/**
+ * @brief Called when all KitManager's kits are loaded
+ */
+void ArduinoSettings::onKitsLoaded()
+{
+    QString dummy;
+    if (m_createKit && validate(m_sdkLocation.toString(), dummy))
+    {
+        foreach (Kit *kit, KitManager::instance()->kits())
+        {
+            if (kit->id() == Constants::AVR_KIT_ID && kit->isAutoDetected())
+                return;
+        }
+        createTools();
+    }
 }
 
 } // namespace Internal

@@ -22,69 +22,61 @@
 ** SOFTWARE.
 **
 ****************************************************************************/
-#ifndef ARDUINOSETTINGS_H
-#define ARDUINOSETTINGS_H
+#include "arduinoprojectnode.h"
+#include "arduinoproject.h"
 
-#include <QSettings>
-#include <utils/fileutils.h>
-
-namespace ProjectExplorer {
-    class Kit;
-    class ToolChain;
-}
-
+using namespace ProjectExplorer;
+using namespace Utils;
 
 namespace Arduino {
 namespace Internal {
 
-class ArduinoToolChain;
-
-/**
- * @brief Arduino SDK settings
- */
-class ArduinoSettings : public QObject
+ArduinoProjectNode::ArduinoProjectNode(ArduinoProject &project, const FileName &projectFilePath)
+    : ProjectNode(projectFilePath)
+    , m_project(project)
 {
-    Q_OBJECT
-public:
-    static ArduinoSettings *instance();
 
-    void load();
-    void save() const;
+}
 
-    Utils::FileName sdkLocation() const;
-    void setSdkLocation(const Utils::FileName &sdk);
+bool ArduinoProjectNode::supportsAction(ProjectAction action, const Node *node) const
+{
+    // TODO
+    Q_UNUSED(action);
+    Q_UNUSED(node);
+    return false;
+//    switch (node->nodeType()) {
+//    case NodeType::File:
+//        return action == ProjectAction::Rename
+//            || action == ProjectAction::RemoveFile;
+//    case NodeType::Folder:
+//    case NodeType::Project:
+//        return action == ProjectAction::AddNewFile
+//            || action == ProjectAction::RemoveFile
+//            || action == ProjectAction::AddExistingFile;
+//    default:
+//        return ProjectNode::supportsAction(action, node);
+//    }
+}
 
-    bool isAutoCreateKitEnabled() const;
-    void setAutoCreateKit(bool enabled);
+bool ArduinoProjectNode::addFiles(const QStringList &filePaths, QStringList *)
+{
+    return m_project.addFiles(filePaths);
+}
 
-    Utils::FileName boardsFile() const;
-    Utils::FileName sdkIncludePath() const;
-    Utils::FileName avrBinPath() const;
-    Utils::FileName avrIncludePath() const;
+bool ArduinoProjectNode::removeFiles(const QStringList &filePaths, QStringList *)
+{
+    return m_project.removeFiles(filePaths);
+}
 
-    static bool validate(const QString &path, QString &errorStr);
-    bool validate(QString &errorStr) const;
+bool ArduinoProjectNode::deleteFiles(const QStringList &)
+{
+    return true;
+}
 
-private:
-    ArduinoSettings(QObject *parent = nullptr);
-    void createTools();
-    ArduinoToolChain * createToolchain();
-    ProjectExplorer::Kit *createKit(ArduinoToolChain *toolChain);
-
-private slots:
-    void onKitsLoaded();
-
-private:
-    Utils::FileName m_sdkLocation; ///< Arduino SDK location
-    bool m_createKit; ///< Auto create kit flag
-
-    static ArduinoSettings *m_instance; ///< Settings instance
-
-    friend class ArduinoPlugin;
-
-};
+bool ArduinoProjectNode::renameFile(const QString &filePath, const QString &newFilePath)
+{
+    return m_project.renameFile(filePath, newFilePath);
+}
 
 } // namespace Internal
 } // namespace Arduino
-
-#endif // ARDUINOSETTINGS_H

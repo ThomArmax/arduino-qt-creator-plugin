@@ -33,11 +33,15 @@ using namespace Core;
 using namespace Utils;
 
 namespace Utils { class FileWizardPage; }
+namespace ProjectExplorer {
+class Kit;
+class TargetSetupPage;
+} // namespace ProjectExplorer
 
 namespace Arduino {
 namespace Internal {
 
-class ArduinoFileSelectionWizardPage;
+class ArduinoHardwareConfigurationPage;
 
 class ArduinoProjectWizardDialog : public BaseFileWizard
 {
@@ -53,7 +57,8 @@ public:
     QString projectName() const;
 
     FileWizardPage *m_firstPage;
-//    ArduinoFileSelectionWizardPage *m_secondPage;
+    ArduinoHardwareConfigurationPage *m_secondPage;
+    ProjectExplorer::TargetSetupPage *m_targetSetupPage;
 };
 
 

@@ -27,13 +27,20 @@
 
 #include <utils/wizardpage.h>
 
+#include <QFormLayout>
+#include <QComboBox>
+
 namespace Arduino {
 namespace Internal {
 
 class ArduinoHardwareConfigurationPage : public Utils::WizardPage
 {
 public:
-    ArduinoHardwareConfigurationPage();
+    ArduinoHardwareConfigurationPage(QWidget *parent = nullptr);
+
+private:
+    QFormLayout m_formLayout;
+    QComboBox m_boardsComboBox;
 };
 
 } // namespace Internal

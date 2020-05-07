@@ -377,6 +377,7 @@ QList<ToolChain *> ArduinoToolChainFactory::autoDetectToolChain(const FileName &
         tc->setTargetAbi(abi);
         tc->setOriginalTargetTriple(detectedAbis.originalTargetTriple);
         tc->setDisplayName(tc->defaultDisplayName()); // reset displayname
+        //qDebug() << Q_FUNC_INFO << tc->systemHeaderPaths()
 
         result.append(tc.release());
     }

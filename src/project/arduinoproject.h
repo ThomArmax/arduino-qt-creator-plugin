@@ -22,36 +22,53 @@
 ** SOFTWARE.
 **
 ****************************************************************************/
-#pragma once
+#ifndef ARDUINOPROJECT_H
+#define ARDUINOPROJECT_H
 
+#include <projectexplorer/project.h>
+#include <projectexplorer/projectnodes.h>
+
+#include <QElapsedTimer>
+#include <QFutureWatcher>
+#include <QTimer>
+
+using namespace ProjectExplorer;
 
 namespace Arduino {
-namespace Constants {
+namespace Internal {
 
-const char ARDUINO_TOOLCHAIN_ID[] = "Avr.GccToolChain";
+class ArduinoProject : public Project
+{
+    Q_OBJECT
 
-const char AVR_DEVICE_ID[] = "Avr.Device";
-const char AVR_KIT_ID[] = "Avr.Kit";
+public:
+    explicit ArduinoProject(const Utils::FileName &fileName);
 
-const char ARDUINO_OS_TYPE[] = "Arduino.OsType";
+    bool needsConfiguration() const override;
+    bool supportsKit(ProjectExplorer::Kit *k, QString *errorMessage) const override;
+    Utils::FileNameList nimFiles() const;
+    QVariantMap toMap() const override;
 
-// Arduino settings constants
-const char ARDUINO_SETTINGS_ID[] = "Arduino.Configuration";
+    bool addFiles(const QStringList &filePaths);
+    bool removeFiles(const QStringList &filePaths);
+    bool renameFile(const QString &filePath, const QString &newFilePath);
 
-// Arduino tools menu constants
-const char ARDUINO_TOOLS_MENU_ARDUINO_ID[]              = "Arduino.Tools.Menu";
-const char ARDUINO_TOOLS_MENU_DOWNLOAD_ACTION[]         = "Arduino.Tools.Menu.Download.Action";
-const char ARDUINO_TOOLS_MENU_SERIAL_MONITOR_ACTION[]   = "Arduino.Tools.Menu.SerialMonitor.Action";
+protected:
+    RestoreResult fromMap(const QVariantMap &map, QString *errorMessage) override;
 
-// Arduino projects constants
-const char ARDUINO_PROJECT_WIZARD_CATEGORY[]  = "Arduino.Projects.ArduinoProject";
-const char ARDIUNO_PROJECT_WIZARD_CATEGORY_DISPLAY[] = QT_TRANSLATE_NOOP("ProjectExplorer", "Arduino");
+private:
+    void scheduleProjectScan();
+    void collectProjectFiles();
+    void updateProject();
 
-const char ARDUINO_INO_PROJECT_MIMETYPE[] = "text/x-ard-ino-project";
-const char ARDUINO_INO_PROJECT_ID[] = "Arduino.InoProject";
+    QStringList m_files;
+    QStringList m_excludedFiles;
+    QFutureWatcher<QList<ProjectExplorer::FileNode *>> m_futureWatcher;
+    QElapsedTimer m_lastProjectScan;
+    QTimer m_projectScanTimer;
+};
 
-// Mime types
-const char INO_SOURCE_MIMETYPE[] = "text/x-ino-src";
-
-} // namespace Constants
+} // namespace Internal
 } // namespace Arduino
+
+#endif // ARDUINOPROJECT_H

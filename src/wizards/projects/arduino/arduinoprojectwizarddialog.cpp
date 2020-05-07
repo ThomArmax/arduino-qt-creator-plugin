@@ -23,10 +23,18 @@
 **
 ****************************************************************************/
 #include "arduinoprojectwizarddialog.h"
-#include "arduinofilesselectionwizardpage.h"
+#include "arduinohardwareconfigurationpage.h"
+#include "../../../arduinoconstants.h"
 
 #include <utils/fileutils.h>
 #include <utils/filewizardpage.h>
+
+#include <projectexplorer/kitinformation.h>
+#include <projectexplorer/projectexplorer.h>
+#include <projectexplorer/projectexplorerconstants.h>
+#include <projectexplorer/targetsetuppage.h>
+#include <qtsupport/qtkitinformation.h>
+#include <qtsupport/qtsupportconstants.h>
 
 using namespace Core;
 using namespace Utils;
@@ -43,9 +51,16 @@ ArduinoProjectWizardDialog::ArduinoProjectWizardDialog(const BaseFileWizardFacto
     m_firstPage->setPathLabel(tr("Location:"));
     addPage(m_firstPage);
 
-//    m_secondPage = new ArduinoFilesSelectionWizardPage(this);
-//    m_secondPage->setTitle(tr("File Selection"));
-//    addPage(m_secondPage);
+    m_secondPage = new ArduinoHardwareConfigurationPage(this);
+    m_secondPage->setTitle(tr("Hardware configuration"));
+    addPage(m_secondPage);
+
+    m_targetSetupPage = new ProjectExplorer::TargetSetupPage;
+    m_targetSetupPage->setUseScrollArea(false);
+    //m_targetSetupPage->setRequiredKitPredicate(Core::Id(Constants::AVR_KIT_ID));
+    m_targetSetupPage->initializePage();
+    m_targetSetupPage->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+    addPage(m_targetSetupPage);
 }
 
 QString ArduinoProjectWizardDialog::path() const

@@ -9,6 +9,7 @@ SOURCES += \
     arduinotoolsmenu.cpp \
     arduinosettings.cpp \
     toolchain/arduinotoolchain.cpp \
+    toolchain/arduinopotentialkit.cpp \
     wizards/projects/arduino/arduinoprojectwizard.cpp \
     wizards/projects/avr/avrprojectwizard.cpp \
     wizards/projects/arduino/arduinoprojectwizarddialog.cpp \
@@ -19,7 +20,10 @@ SOURCES += \
     device/arduinodevicefactory.cpp \
     device/arduinodeviceconfigurationwizardsetuppage.cpp \
     device/arduinodeviceconfigurationwidget.cpp \
-    device/arduinodeviceconfigurationfactory.cpp
+    device/arduinodeviceconfigurationfactory.cpp \
+    project/arduinoproject.cpp \
+    project/arduinoprojectnode.cpp \
+    wizards/projects/arduino/arduinoprojectjsonfactory.cpp
 
 HEADERS += \
     arduino_global.h \
@@ -30,6 +34,7 @@ HEADERS += \
     arduinotoolsmenu.h \
     arduinosettings.h \
     toolchain/arduinotoolchain.h \
+    toolchain/arduinopotentialkit.h \
     wizards/projects/arduino/arduinoprojectwizard.h \
     wizards/projects/avr/avrprojectwizard.h \
     wizards/projects/arduino/arduinoprojectwizarddialog.h \
@@ -40,7 +45,10 @@ HEADERS += \
     device/arduinodevicefactory.h \
     device/arduinodeviceconfigurationwizardsetuppage.h \
     device/arduinodeviceconfigurationwidget.h \
-    device/arduinodeviceconfigurationfactory.h
+    device/arduinodeviceconfigurationfactory.h \
+    project/arduinoproject.h \
+    project/arduinoprojectnode.h \
+    wizards/projects/arduino/arduinoprojectjsonfactory.h
 
 # Qt Creator linking
 
@@ -73,6 +81,8 @@ QTC_LIB_DEPENDS += \
 QTC_PLUGIN_DEPENDS += \
     coreplugin \
     projectexplorer \
+    qmakeprojectmanager \
+    debugger \
 
 QTC_PLUGIN_RECOMMENDS += \
     # optional plugin dependencies. nothing here at this time

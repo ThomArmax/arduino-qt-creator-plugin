@@ -22,36 +22,38 @@
 ** SOFTWARE.
 **
 ****************************************************************************/
-#pragma once
+#ifndef ARDUINOPOTENTIALKIT_H
+#define ARDUINOPOTENTIALKIT_H
 
+#include <projectexplorer/ipotentialkit.h>
+#include <utils/detailswidget.h>
 
 namespace Arduino {
-namespace Constants {
+namespace Internal {
 
-const char ARDUINO_TOOLCHAIN_ID[] = "Avr.GccToolChain";
+class ArduinoPotentialKit : public ProjectExplorer::IPotentialKit
+{
+    Q_OBJECT
+public:
+    QString displayName() const override;
+    void executeFromMenu() override;
+    QWidget *createWidget(QWidget *parent) const override;
+    bool isEnabled() const override;
+};
 
-const char AVR_DEVICE_ID[] = "Avr.Device";
-const char AVR_KIT_ID[] = "Avr.Kit";
+class ArduinoPotentialKitWidget : public Utils::DetailsWidget
+{
+    Q_OBJECT
+public:
+    ArduinoPotentialKitWidget(QWidget *parent);
+private:
+    void openOptions();
+    void recheck();
+};
 
-const char ARDUINO_OS_TYPE[] = "Arduino.OsType";
 
-// Arduino settings constants
-const char ARDUINO_SETTINGS_ID[] = "Arduino.Configuration";
-
-// Arduino tools menu constants
-const char ARDUINO_TOOLS_MENU_ARDUINO_ID[]              = "Arduino.Tools.Menu";
-const char ARDUINO_TOOLS_MENU_DOWNLOAD_ACTION[]         = "Arduino.Tools.Menu.Download.Action";
-const char ARDUINO_TOOLS_MENU_SERIAL_MONITOR_ACTION[]   = "Arduino.Tools.Menu.SerialMonitor.Action";
-
-// Arduino projects constants
-const char ARDUINO_PROJECT_WIZARD_CATEGORY[]  = "Arduino.Projects.ArduinoProject";
-const char ARDIUNO_PROJECT_WIZARD_CATEGORY_DISPLAY[] = QT_TRANSLATE_NOOP("ProjectExplorer", "Arduino");
-
-const char ARDUINO_INO_PROJECT_MIMETYPE[] = "text/x-ard-ino-project";
-const char ARDUINO_INO_PROJECT_ID[] = "Arduino.InoProject";
-
-// Mime types
-const char INO_SOURCE_MIMETYPE[] = "text/x-ino-src";
-
-} // namespace Constants
+} // namespace Internal
 } // namespace Arduino
+
+
+#endif // ARDUINOPOTENTIALKIT_H

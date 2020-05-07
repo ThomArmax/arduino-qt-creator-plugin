@@ -28,10 +28,13 @@
 #include "arduinosettings.h"
 #include "arduinotoolsmenu.h"
 #include "toolchain/arduinotoolchain.h"
+#include "toolchain/arduinopotentialkit.h"
 #include "device/arduinodevicefactory.h"
 #include "device/arduinodeviceconfigurationfactory.h"
 #include "wizards/projects/arduino/arduinoprojectwizard.h"
+#include "wizards/projects/arduino/arduinoprojectjsonfactory.h"
 #include "wizards/projects/avr/avrprojectwizard.h"
+#include "project/arduinoproject.h"
 
 #include <coreplugin/icore.h>
 #include <coreplugin/icontext.h>
@@ -40,6 +43,8 @@
 #include <coreplugin/actionmanager/actioncontainer.h>
 #include <coreplugin/coreconstants.h>
 #include <projectexplorer/customwizard/customwizard.h>
+#include <projectexplorer/projectmanager.h>
+#include <projectexplorer/kitmanager.h>
 #include <projectexplorer/jsonwizard/jsonwizardfactory.h>
 
 #include <QAction>
@@ -71,16 +76,17 @@ bool ArduinoPlugin::initialize(const QStringList &arguments, QString *errorStrin
     // In the initialize function, a plugin can be sure that the plugins it
     // depends on have initialized their members.
 
-    Q_UNUSED(arguments)
-    Q_UNUSED(errorString)
+    Q_UNUSED(arguments);
+    Q_UNUSED(errorString);
 
-    // Loads the settings during plugin init
-    ArduinoSettings::instance()->load();
+    // Instanciate the ArduinoSettings
+    new ArduinoSettings(this);
 
     // Register objects
     addAutoReleasedObject(new ArduinoSettingsPage);
     addAutoReleasedObject(new ArduinoToolsMenu);
     addAutoReleasedObject(new ArduinoToolChainFactory);
+    addAutoReleasedObject(new ArduinoPotentialKit);
     addAutoReleasedObject(new ArduinoDeviceFactory);
     addAutoReleasedObject(new ArduinoDeviceConfigurationFactory);
 
@@ -88,11 +94,14 @@ bool ArduinoPlugin::initialize(const QStringList &arguments, QString *errorStrin
     Core::IWizardFactory::registerFactoryCreator([] {
         return QList<Core::IWizardFactory *> {
             new ArduinoProjectWizard,
-            new AvrProjectWizard
+            new AvrProjectWizard,
         };
     });
 
     JsonWizardFactory::addWizardPath(Utils::FileName::fromString(":/wizards/projects/"));
+
+    // Register Arduino project
+    ProjectExplorer::ProjectManager::registerProjectType<ArduinoProject>(Constants::ARDUINO_INO_PROJECT_MIMETYPE);
 
     return true;
 }

@@ -63,12 +63,17 @@ GeneratedFiles ArduinoProjectWizard::generateFiles(const QWizard *w, QString *er
     const QString projectName = dialog->projectName();
     const QString projectPath = dialog->path() + "/" + projectName;
     const QString mainSourceFileName = buildFileName(projectPath, projectName, ".ino");
+    const QString proFileName = buildFileName(projectPath, projectName, ".pro");
 
     Core::GeneratedFile mainSource(mainSourceFileName);
     setInoFileContent(mainSource, projectName + ".ino");
 
+    Core::GeneratedFile proFile(proFileName);
+    setProFileContent(proFile, projectName + ".ino");
+    proFile.setAttributes(Core::GeneratedFile::OpenProjectAttribute);
+
     Core::GeneratedFiles rc;
-    rc << mainSource;
+    rc << mainSource << proFile;
 
     return rc;
 }
@@ -81,6 +86,19 @@ void ArduinoProjectWizard::setInoFileContent(Core::GeneratedFile &file, const QS
     QByteArray fileData = inoFile.readAll();
     QString content = QString::fromLatin1(fileData.data(), fileData.size());
     content.replace("%FILENAME%", fileName);
+
+    file.setContents(content);
+}
+
+void ArduinoProjectWizard::setProFileContent(Core::GeneratedFile &file, const QString &inoFileName) const
+{
+    QString content;
+
+    content += "TEMPLATE = app\r\n";
+    content += "FILES += \\";
+    content += "\r\n";
+    content += "    " + inoFileName + "\r\n";
+    content += "\r\n";
 
     file.setContents(content);
 }

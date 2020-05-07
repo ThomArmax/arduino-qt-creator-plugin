@@ -24,6 +24,12 @@
 ****************************************************************************/
 #pragma once
 
+/*
+ * READINGS :
+ * https://forum.qt.io/topic/96504/configure-qt-creator-to-support-avr/7
+ * https://github.com/TheMightyQuasar/CuteAVR
+ */
+
 #include "arduino_global.h"
 
 #include <extensionsystem/iplugin.h>

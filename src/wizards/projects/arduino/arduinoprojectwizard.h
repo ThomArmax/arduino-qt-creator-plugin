@@ -42,6 +42,7 @@ private:
     Core::GeneratedFiles generateFiles(const QWizard *w, QString *errorMessage) const override;
 
     static void setInoFileContent(Core::GeneratedFile &file, const QString &fileName);
+    void setProFileContent(Core::GeneratedFile &file, const QString &inoFileName) const;
 };
 
 } // namespace Internal
