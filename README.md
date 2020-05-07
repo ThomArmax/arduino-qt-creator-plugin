@@ -43,5 +43,5 @@ First of all, please refer to Qt documentation:
  - https://doc.qt.io/qtcreator-extending/getting-and-building.html
  - https://doc.qt.io/qtcreator-extending/first-plugin.html
  
- This plugin is developed against qt-creator `v4.5.2` `3c21c0d80b52eb43483308eccc663279e9f369a4`
+This plugin is developed against qt-creator `v4.5.2` `3c21c0d80b52eb43483308eccc663279e9f369a4`. Using older version may lead to build issue
  
